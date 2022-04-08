@@ -1,0 +1,121 @@
+/* * Copyright 2017 Palantir Technologies, Inc. All rights reserved. */
+.mosaic.nnp-dark {
+  background: #30404d;
+}
+.mosaic.nnp-dark .mosaic-zero-state {
+  background: #293742;
+  border-radius: 3px;
+  box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
+}
+.mosaic.nnp-dark .mosaic-split:hover {
+  background: none;
+}
+.mosaic.nnp-dark .mosaic-split:hover .mosaic-split-line {
+  box-shadow: 0 0 0 2px #2b95d6;
+}
+.mosaic.nnp-dark.mosaic-drop-target .drop-target-container .drop-target, .mosaic.nnp-dark .mosaic-drop-target .drop-target-container .drop-target {
+  //background: fade(#48aff0, 20%);
+  border: 2px solid #2b95d6;
+  transition: opacity 100ms;
+  border-radius: 3px;
+}
+.mosaic.nnp-dark .mosaic-window, .mosaic.nnp-dark .mosaic-preview {
+  box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
+  border-radius: 3px;
+}
+.mosaic.nnp-dark .mosaic-window .mosaic-window-toolbar, .mosaic.nnp-dark .mosaic-preview .mosaic-window-toolbar {
+  box-shadow: 0 1px 1px rgba(16, 22, 26, 0.4);
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+  background: #293742;
+}
+.mosaic.nnp-dark .mosaic-window .mosaic-window-toolbar.draggable:hover, .mosaic.nnp-dark .mosaic-preview .mosaic-window-toolbar.draggable:hover {
+  background: #293742;
+}
+.mosaic.nnp-dark .mosaic-window .mosaic-window-toolbar.draggable:hover .mosaic-window-title, .mosaic.nnp-dark .mosaic-preview .mosaic-window-toolbar.draggable:hover .mosaic-window-title {
+  color: #fff;
+}
+.mosaic.nnp-dark .mosaic-window .mosaic-window-title, .mosaic.nnp-dark .mosaic-preview .mosaic-window-title {
+  font-weight: 600;
+  font-family: monospace;
+  color: #fff;
+}
+.mosaic.nnp-dark .mosaic-window .mosaic-window-controls .separator, .mosaic.nnp-dark .mosaic-preview .mosaic-window-controls .separator {
+  border-left: 2px solid #202b33;
+}
+.mosaic.nnp-dark .mosaic-window .mosaic-window-controls .bp3-button, .mosaic.nnp-dark .mosaic-preview .mosaic-window-controls .bp3-button, .mosaic.nnp-dark .mosaic-window .mosaic-window-controls .bp3-button:before, .mosaic.nnp-dark .mosaic-preview .mosaic-window-controls .bp3-button:before {
+  color: #fff;
+}
+.mosaic.nnp-dark .mosaic-window .mosaic-window-body, .mosaic.nnp-dark .mosaic-preview .mosaic-window-body {
+  border-top-width: 0;
+  background: #293742;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+.mosaic.nnp-dark .mosaic-window .mosaic-window-additional-actions-bar, .mosaic.nnp-dark .mosaic-preview .mosaic-window-additional-actions-bar {
+  transition: height 250ms;
+  box-shadow: 0 1px 1px rgba(16, 22, 26, 0.15);
+}
+.mosaic.nnp-dark .mosaic-window .mosaic-window-additional-actions-bar.bp3-button, .mosaic.nnp-dark .mosaic-preview .mosaic-window-additional-actions-bar.bp3-button, .mosaic.nnp-dark .mosaic-window .mosaic-window-additional-actions-bar.bp3-button:before, .mosaic.nnp-dark .mosaic-preview .mosaic-window-additional-actions-bar.bp3-button:before {
+  color: #fff;
+}
+.mosaic.nnp-dark .mosaic-window.additional-controls-open .mosaic-window-toolbar, .mosaic.nnp-dark .mosaic-preview.additional-controls-open .mosaic-window-toolbar {
+  //box-shadow: 0 1px 0 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
+}
+.mosaic.nnp-dark .mosaic-window .mosaic-preview, .mosaic.nnp-dark .mosaic-preview .mosaic-preview {
+  border: 1px solid #8a9ba8;
+}
+.mosaic.nnp-dark .mosaic-window .mosaic-preview h4, .mosaic.nnp-dark .mosaic-preview .mosaic-preview h4 {
+  color: #394b59;
+}
+.mosaic.nnp-dark.bp3-dark {
+  background: #202b33;
+}
+.mosaic.nnp-dark.bp3-dark .mosaic-zero-state {
+  background: #30404d;
+  box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.4), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
+}
+.mosaic.nnp-dark.bp3-dark .mosaic-split:hover .mosaic-split-line {
+  box-shadow: 0 0 0 3px #00b3a4;
+}
+.mosaic.nnp-dark.bp3-dark.mosaic-drop-target .drop-target-container .drop-target, .mosaic.nnp-dark.bp3-dark .mosaic-drop-target .drop-target-container .drop-target {
+  //background: fade(#293742, 20%);
+  border-color: #137cbd;
+}
+.mosaic.nnp-dark.bp3-dark .mosaic-window-toolbar, .mosaic.nnp-dark.bp3-dark .mosaic-window-additional-actions-bar {
+  background: #30404d;
+  box-shadow: 0 1px 1px rgba(16, 22, 26, 0.4);
+}
+.mosaic.nnp-dark.bp3-dark .mosaic-window, .mosaic.nnp-dark.bp3-dark .mosaic-preview {
+  box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.4), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
+}
+.mosaic.nnp-dark.bp3-dark .mosaic-window .mosaic-window-toolbar.draggable:hover, .mosaic.nnp-dark.bp3-dark .mosaic-preview .mosaic-window-toolbar.draggable:hover {
+  background: linear-gradient(to bottom, #394b59, #30404d);
+}
+.mosaic.nnp-dark.bp3-dark .mosaic-window .mosaic-window-toolbar.draggable:hover .mosaic-window-title, .mosaic.nnp-dark.bp3-dark .mosaic-preview .mosaic-window-toolbar.draggable:hover .mosaic-window-title {
+  color: #fff;
+}
+.mosaic.nnp-dark.bp3-dark .mosaic-window .mosaic-window-title, .mosaic.nnp-dark.bp3-dark .mosaic-preview .mosaic-window-title {
+  color: #ced9e0;
+}
+.mosaic.nnp-dark.bp3-dark .mosaic-window .mosaic-window-controls .separator, .mosaic.nnp-dark.bp3-dark .mosaic-preview .mosaic-window-controls .separator {
+  border-color: #5c7080;
+}
+.mosaic.nnp-dark.bp3-dark .mosaic-window .mosaic-window-controls .bp3-button, .mosaic.nnp-dark.bp3-dark .mosaic-preview .mosaic-window-controls .bp3-button, .mosaic.nnp-dark.bp3-dark .mosaic-window .mosaic-window-controls .bp3-button:before, .mosaic.nnp-dark.bp3-dark .mosaic-preview .mosaic-window-controls .bp3-button:before {
+  color: #fff;
+}
+.mosaic.nnp-dark.bp3-dark .mosaic-window .mosaic-window-body, .mosaic.nnp-dark.bp3-dark .mosaic-preview .mosaic-window-body {
+  background: #293742;
+}
+.mosaic.nnp-dark.bp3-dark .mosaic-window .mosaic-window-additional-actions-bar .bp3-button, .mosaic.nnp-dark.bp3-dark .mosaic-preview .mosaic-window-additional-actions-bar .bp3-button, .mosaic.nnp-dark.bp3-dark .mosaic-window .mosaic-window-additional-actions-bar .bp3-button:before, .mosaic.nnp-dark.bp3-dark .mosaic-preview .mosaic-window-additional-actions-bar .bp3-button:before {
+  color: #fff;
+}
+.mosaic.nnp-dark.bp3-dark .mosaic-window.additional-controls-open .mosaic-window-toolbar, .mosaic.nnp-dark.bp3-dark .mosaic-preview.additional-controls-open .mosaic-window-toolbar {
+  box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.4), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
+}
+.mosaic.nnp-dark.bp3-dark .mosaic-window .mosaic-preview, .mosaic.nnp-dark.bp3-dark .mosaic-preview .mosaic-preview {
+  border-color: #293742;
+}
+.mosaic.nnp-dark.bp3-dark .mosaic-window .mosaic-preview h4, .mosaic.nnp-dark.bp3-dark .mosaic-preview .mosaic-preview h4 {
+  color: #30404d;
+}
