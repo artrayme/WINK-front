@@ -136,8 +136,10 @@ export class WindowsLayout extends React.PureComponent<
           open in new window
         </Button>,
       ]),
-      body: <Button> ahahahah </Button>
-          // <Viewport document={this.state.openDocument}/>,
+      body:
+          // <iframe src="http://127.0.0.1:8000?sys_id=section_subject_domain_of_algebra&scg_structure_view_only=true"/>
+          // <Button> ahahahah </Button>
+          <Viewport document={this.state.openDocument}/>
     },
     {
       name: "Explorer",

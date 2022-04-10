@@ -14,6 +14,7 @@
     "codemirror": "^5.49.2",
     "electron": "^4.1.0",
     "hotkeys-js": "^3.7.3",
+    "iframe-resizer-react": "^1.1.0",
     "is-buffer": "^2.0.4",
     "js-file-download": "^0.4.8",
     "lodash": "^4.17.15",
