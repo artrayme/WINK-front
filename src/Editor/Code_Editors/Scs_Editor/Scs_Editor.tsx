@@ -1,5 +1,5 @@
 import React from "react";
-import CodeEditor, {CodeEditorProps, Toster} from "../../CodeEditor";
+import CodeEditor, {CodeEditorProps} from "../../CodeEditor";
 import Editor from 'react-monaco-editor';
 import {editor} from "monaco-editor";
 import {config, getCompletionProvider, language, scsTheme} from "../../../Utilities/scs-support";

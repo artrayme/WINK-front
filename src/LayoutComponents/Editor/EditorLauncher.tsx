@@ -6,10 +6,7 @@ import Monaco from "../../Editor/Code_Editors/Monaco_Editor/Monaco_Editor";
 import {Button, ButtonGroup, Card} from "@blueprintjs/core";
 import JsonView from "../../Editor/Code_Editors/Json_View/Json_View";
 import CKEditorEditor from "../../Editor/Code_Editors/CKEditor_Editor/CKEditor_Editor";
-import CKEditor4Editor from "../../Editor/Code_Editors/CKEditor4_Editor/CKEditor4_Editor";
-import MDEDitor from "../../Editor/Code_Editors/MDE_Editor/MDE_Editor";
-import CodeMirror from "../../Editor/Code_Editors/CodeMirror_Editor/CodeMirror_Editor";
-import JsonObjectEditor from "../../Editor/Code_Editors/Json_Object_Editor/JsonObjectEditor";
+import MDEditor from "../../Editor/Code_Editors/MDE_Editor/MDE_Editor";
 import Scs_Editor from "../../Editor/Code_Editors/Scs_Editor/Scs_Editor";
 
 const Editors = {
@@ -17,10 +14,7 @@ const Editors = {
     Monaco,
     JsonView,
     CKEditorEditor,
-    CKEditor4Editor,
-    MDEDitor,
-    CodeMirror,
-    JsonObjectEditor,
+    MDEditor,
     Scs_Editor
 };
 
@@ -35,20 +29,11 @@ interface EditorLauncherProps {
     editor?: string | undefined | null;
 }
 
-export interface CodeViewer {
-    Languages: string[];
-}
-
 export interface Editor {
     name: string;
     logo: string;
     codeViewer: boolean;
     Languages: any;
-}
-
-export interface EditorsConfig {
-    codeViewer: CodeViewer;
-    Editors: Editor[];
 }
 
 class EditorLauncher extends Component<EditorLauncherProps,
@@ -100,13 +85,13 @@ class EditorLauncher extends Component<EditorLauncherProps,
     }
 
     getEditorLanguage = () => {
-        const documentLangusage = getDocumentLanguage(this.state.document);
+        const documentLanguage = getDocumentLanguage(this.state.document);
         const editor = this.getEditorConfig();
         if (editor) {
             const languages = editor.Languages;
 
-            if (languages && documentLangusage) {
-                const editorLanguage = languages[documentLangusage];
+            if (languages && documentLanguage) {
+                const editorLanguage = languages[documentLanguage];
                 if (editorLanguage) {
                     return editorLanguage[0];
                 }
@@ -138,13 +123,20 @@ class EditorLauncher extends Component<EditorLauncherProps,
 
     setEditorName = (name: string) => {
         if (this.state.document) {
-            // this.StorageManager.setEditor(this.state.document, name);
             this.setState({editor: name, editorFound: true});
         }
     };
 
     render() {
+        if (this.getSupportedEditors().length === 1) {
+            return React.createElement(Editors[this.getSupportedEditors()[0]], {
+                language: this.getEditorLanguage(),
+                documentName: this.state.document
+            });
+        }
         if (this.state.editorFound && this.state.document) {
+            console.log(this.state.editor)
+            console.log(Editors[this.state.editor])
             return React.createElement(Editors[this.state.editor], {
                 language: this.getEditorLanguage(),
                 documentName: this.state.document

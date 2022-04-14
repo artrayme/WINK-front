@@ -1,6 +1,4 @@
 import React, {Component} from "react";
-import {ButtonGroup, Button, Popover, Classes} from "@blueprintjs/core";
-import classNames from "classnames";
 import StorageManager from "../../Storage/storageManager";
 
 interface NavbarProps {

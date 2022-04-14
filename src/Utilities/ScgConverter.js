@@ -1,6 +1,6 @@
 let dictionary;
 
-export function convertOldGwfToNew(content){
+export function convertOldGwfToNew(content) {
     dictionary = getDictionary();
     let parser = new DOMParser();
     let xmlDoc = parser.parseFromString(content, "text/xml");
@@ -8,15 +8,15 @@ export function convertOldGwfToNew(content){
     return (new XMLSerializer()).serializeToString(xmlDoc)
 }
 
-function getChildren(elem){
+function getChildren(elem) {
 
-    for(const i in elem.childNodes){
+    for (const i in elem.childNodes) {
 
-        if(elem.childNodes[i].nodeType === 1){
+        if (elem.childNodes[i].nodeType === 1) {
 
             if (elem.childNodes[i].hasAttribute("type")) {
 
-                if (elem.childNodes[i].tagName === "node" || elem.childNodes[i].tagName === "pair"){
+                if (elem.childNodes[i].tagName === "node" || elem.childNodes[i].tagName === "pair") {
                     if (dictionary.has(elem.childNodes[i].getAttribute("type"))) {
                         elem.childNodes[i].setAttribute("type", dictionary.get(elem.childNodes[i].getAttribute("type")));
                     }
@@ -63,25 +63,25 @@ function getDictionary() {
         .set("node/var/predmet", "node/var/temp/struct")
         .set("node/var/group", "node/var/perm/group")
 
-        .set("pair/const/synonym","pair/const/-/perm/noorien")
-        .set("pair/const/orient","pair/const/-/perm/orient")
-        .set("arc/const/fuz","pair/const/fuz/perm/orient/membership")
-        .set("arc/const/fuz/temp","pair/const/fuz/temp/orient/membership")
-        .set("arc/const/neg","pair/const/neg/perm/orient/membership")
-        .set("arc/const/neg/temp","pair/const/neg/temp/orient/membership")
-        .set("arc/const/pos","pair/const/pos/perm/orient/membership")
-        .set("arc/const/pos/temp","pair/const/pos/temp/orient/membership")
-        .set("pair/var/noorient","pair/-/-/-/noorient")
-        .set("pair/var/orient","pair/-/-/-/orient")
-        .set("arc/var/fuz","pair/var/fuz/perm/orient/membership")
-        .set("arc/var/fuz/temp","pair/var/fuz/temp/orient/membership")
-        .set("arc/var/neg","pair/var/neg/perm/orient/membership")
-        .set("arc/var/neg/temp","pair/var/neg/temp/orient/membership")
-        .set("arc/var/pos","pair/var/-/perm/noorien")
-        .set("arc/var/pos/temp","pair/var/pos/temp/orient/membership")
-        .set("pair/noorient","pair/-/-/-/noorient")
-        .set("pair/orient","pair/-/-/-/orient")
-        .set("arc/-/-","node/var/perm/general"); //тут не нашла дуги, поэтому получилась дефолтная одиночная
+        .set("pair/const/synonym", "pair/const/-/perm/noorien")
+        .set("pair/const/orient", "pair/const/-/perm/orient")
+        .set("arc/const/fuz", "pair/const/fuz/perm/orient/membership")
+        .set("arc/const/fuz/temp", "pair/const/fuz/temp/orient/membership")
+        .set("arc/const/neg", "pair/const/neg/perm/orient/membership")
+        .set("arc/const/neg/temp", "pair/const/neg/temp/orient/membership")
+        .set("arc/const/pos", "pair/const/pos/perm/orient/membership")
+        .set("arc/const/pos/temp", "pair/const/pos/temp/orient/membership")
+        .set("pair/var/noorient", "pair/-/-/-/noorient")
+        .set("pair/var/orient", "pair/-/-/-/orient")
+        .set("arc/var/fuz", "pair/var/fuz/perm/orient/membership")
+        .set("arc/var/fuz/temp", "pair/var/fuz/temp/orient/membership")
+        .set("arc/var/neg", "pair/var/neg/perm/orient/membership")
+        .set("arc/var/neg/temp", "pair/var/neg/temp/orient/membership")
+        .set("arc/var/pos", "pair/var/-/perm/noorien")
+        .set("arc/var/pos/temp", "pair/var/pos/temp/orient/membership")
+        .set("pair/noorient", "pair/-/-/-/noorient")
+        .set("pair/orient", "pair/-/-/-/orient")
+        .set("arc/-/-", "node/var/perm/general"); //тут не нашла дуги, поэтому получилась дефолтная одиночная
 
     return replacementPairs;
 }

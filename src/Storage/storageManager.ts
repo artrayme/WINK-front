@@ -22,15 +22,12 @@ export interface editorDataObjectInterface {
 export const secretDir = "/home/artrayme/WinkProjects/TestProject/secret/";
 export const configDir = "/home/artrayme/WinkProjects/TestProject/conf/";
 export const codeDir = "/home/artrayme/WinkProjects/TestProject/";
-// export const editorDataDir = "/home/artrayme/WinkProjects/TestProject/editorData/";
 export const editorDataDefualtValue = '{"editor":"","editorData":""}';
 export default class StorageManager {
     fileSystem: FSModule;
 
     constructor() {
-        // this.fileSystem = BrowserFS.BFSRequire("fs");
         this.fileSystem = remote.require('fs');
-
     }
 
     //readFile
@@ -90,19 +87,9 @@ export default class StorageManager {
         }
     }
 
-    //write file
-    syncMakeDocument(
-        path: string,
-        code = "",
-        editorDataObject = {editor: "", editorData: ""}
-    ) {
-        this.syncSetFile(path, code, codeDir);
-    }
-
     MakeDocument(
         path: string,
         code = "",
-        editorDataObject = {editor: "", editorData: ""}
     ) {
         return Promise.all([
             this.setFile(path, code, codeDir),

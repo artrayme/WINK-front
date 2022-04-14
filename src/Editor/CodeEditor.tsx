@@ -1,7 +1,7 @@
 import {Component} from "react";
 import StorageManager from "../Storage/storageManager";
 import hotkeys from "hotkeys-js";
-import {Toaster, Position} from "@blueprintjs/core";
+import {Position, Toaster} from "@blueprintjs/core";
 
 export interface CodeEditorProps {
     language: string;

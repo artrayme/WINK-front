@@ -1,12 +1,14 @@
-import { combineReducers, createStore } from "redux";
+import {combineReducers, createStore} from "redux";
 import NowStore from "./services/now";
+
 export const Reducers = combineReducers({
-  now: NowStore
+    now: NowStore
 });
 
 export default createStore(
-  Reducers);
+    Reducers);
+
 export interface action<T, D> {
-  type: T;
-  data: D;
+    type: T;
+    data: D;
 }

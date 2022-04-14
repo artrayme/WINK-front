@@ -1,7 +1,0 @@
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, 140px);
-}
-.table-fill-width {
-  width: 100%;
-}
