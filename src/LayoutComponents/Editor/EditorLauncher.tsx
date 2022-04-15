@@ -135,8 +135,6 @@ class EditorLauncher extends Component<EditorLauncherProps,
             });
         }
         if (this.state.editorFound && this.state.document) {
-            console.log(this.state.editor)
-            console.log(Editors[this.state.editor])
             return React.createElement(Editors[this.state.editor], {
                 language: this.getEditorLanguage(),
                 documentName: this.state.document
