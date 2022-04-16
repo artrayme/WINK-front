@@ -5,10 +5,11 @@ let mainWindow;
 const createWindow = async () => {
     await app.whenReady();
     mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: 1200,
+        height: 800,
         webPreferences: {
-            nodeIntegration: true
+            nodeIntegration: true,
+            enableRemoteModule: true
         }
     })
     mainWindow.webContents.on('new-window',
