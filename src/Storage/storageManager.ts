@@ -1,11 +1,11 @@
 import * as BrowserFS from "browserfs/dist/node/core/browserfs";
 import {ErrorCode} from "browserfs/dist/node/core/api_error";
 
-//exports
 import {FSModule} from "browserfs/dist/node/core/FS";
 import Stats from "browserfs/dist/node/core/node_fs_stats";
 
-const remote = window.require('electron').remote;
+const electron = window.require('electron');
+const remote = electron.remote;
 
 export const action = {
     byPathOnly: 0,
@@ -19,10 +19,9 @@ export interface editorDataObjectInterface {
     editorData: string;
 }
 
-export const secretDir = "/home/artrayme/WinkProjects/TestProject/secret/";
-export const configDir = "/home/artrayme/WinkProjects/TestProject/conf/";
+export let projectFolder = "TestProject"
 export const codeDir = "/home/artrayme/WinkProjects/TestProject/";
-export const editorDataDefualtValue = '{"editor":"","editorData":""}';
+export const editorDataDefaultValue = '{"editor":"","editorData":""}';
 export default class StorageManager {
     fileSystem: FSModule;
 
@@ -36,7 +35,6 @@ export default class StorageManager {
             try {
                 resolve({
                     code: await this.getFile(path, codeDir),
-                    // editorData: await this.getFileEditorData(path)
                 });
             } catch (e) {
                 reject(e);
@@ -456,5 +454,10 @@ export default class StorageManager {
             return !this.syncGetFileState(path, storage).isDirectory();
         }
         return false;
+    }
+
+    getHomePath(){
+        // @ts-ignore
+        return remote.getPath('home');
     }
 }

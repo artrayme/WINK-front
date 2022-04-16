@@ -1,4 +1,4 @@
-const {app, BrowserWindow, remote, Menu} = require('electron');
+const {app, BrowserWindow} = require('electron');
 
 let mainWindow;
 
@@ -8,7 +8,6 @@ const createWindow = async () => {
         width: 800,
         height: 600,
         webPreferences: {
-            // sandbox: true
             nodeIntegration: true
         }
     })

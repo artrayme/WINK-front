@@ -45,7 +45,7 @@ export default class MonacoEditor extends CodeEditor {
         super(props);
         this.editor = null;
         this.isSaved = true;
-        this.editorOptions = {saveHotky: true};
+        this.editorOptions = {saveHotkey: true};
         this.registerOptions(this.editorOptions);
     }
 

@@ -2,7 +2,6 @@ import React from "react";
 
 import Blockly from "blockly";
 
-//blockly rederer
 import ReactBlocklyComponent from "react-blockly-updated";
 import parseWorkspaceXml from "react-blockly-updated/src/BlocklyHelper";
 import CodeEditor from "../../CodeEditor";
@@ -16,7 +15,7 @@ export default class BlocklyEditor extends CodeEditor {
         this.generator = new Blockly.Generator(this.state.language);
         this.generator.ORDER_ATOMIC = 0;
         this.generator.ORDER_NONE = 0;
-        this.toolbox = genarateToolboxFromCategories(this.toolboxCategories);
+        this.toolbox = generateToolboxFromCategories(this.toolboxCategories);
         this.Initial_xml = this.state.editorData;
         this.makeBlocksByCategory(this.init, this.blockData);
         this.theme = this.getThemeFromInitializationData();
@@ -29,6 +28,7 @@ export default class BlocklyEditor extends CodeEditor {
         this.setState({editor: "Blockly"});
         this.loop();
     };
+
     loop = async () => {
         if (this.workspace) {
             Blockly.svgResize(this.workspace);
@@ -37,6 +37,7 @@ export default class BlocklyEditor extends CodeEditor {
             this.loop();
         }, 200);
     };
+
     //workspace updated
     workspaceDidChange = workspace => {
         this.workspace = workspace;
@@ -205,7 +206,7 @@ const makeToolboxCategories = (data, categories = []) => {
     return categoriesArray;
 };
 
-const genarateToolboxFromCategories = categories => {
+const generateToolboxFromCategories = categories => {
     let results = `<xml xmlns="http://www.w3.org/1999/xhtml" id="toolbox" style="display: none;">\n`;
     categories.forEach(category => {
         results +=

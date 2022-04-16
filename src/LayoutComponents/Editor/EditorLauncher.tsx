@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import StorageManager, {editorDataDefualtValue} from "../../Storage/storageManager";
+import StorageManager, {editorDataDefaultValue} from "../../Storage/storageManager";
 import {getDocumentLanguage} from "../../Storage/fileutils";
 import Blockly from "../../Editor/Code_Editors/Blockly_Editor/blockly_Editor";
 import Monaco from "../../Editor/Code_Editors/Monaco_Editor/Monaco_Editor";
@@ -57,7 +57,7 @@ class EditorLauncher extends Component<EditorLauncherProps,
         const document = props.document;
         if (document) {
 
-            const editorName = JSON.parse(editorDataDefualtValue).editor;
+            const editorName = JSON.parse(editorDataDefaultValue).editor;
             if (editorName) {
                 return [editorName, true];
             }

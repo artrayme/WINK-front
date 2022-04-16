@@ -27,7 +27,7 @@ export default class Scs_Editor extends CodeEditor {
         };
         this.editor = null;
         this.isSaved = true;
-        this.editorOptions = {saveHotky: true};
+        this.editorOptions = {saveHotkey: true};
         this.registerOptions(this.editorOptions);
     }
 

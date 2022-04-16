@@ -8,7 +8,7 @@ interface Props {
     tabs: {
         id: string;
         title: string;
-        childerns: React.ReactNode;
+        childes: React.ReactNode;
         heading: string;
     }[];
     currentTabId: React.ReactText;
@@ -40,7 +40,7 @@ const Tabs = (props: Props) => {
                 </Navbar.Group>
             </Navbar>
             {props.betweenComponent}
-            {props.tabs.find(tab => currentTabId === tab.id).childerns}
+            {props.tabs.find(tab => currentTabId === tab.id).childes}
         </div>
     );
 };
@@ -50,7 +50,7 @@ interface ControlGroupProps {
     tabs: {
         id: string;
         title: string;
-        childerns: React.ReactNode;
+        childes: React.ReactNode;
         heading: string;
     }[];
     currentTabId: React.ReactText;
@@ -80,7 +80,7 @@ export const ControlGroupTabs = (props: ControlGroupProps) => {
                 </Tag>
             </ControlGroup>
             {props.betweenComponent}
-            {props.tabs.find(tab => currentTabId === tab.id).childerns}
+            {props.tabs.find(tab => currentTabId === tab.id).childes}
         </div>
     );
 };

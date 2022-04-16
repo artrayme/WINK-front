@@ -17,7 +17,7 @@ export interface CodeEditorState {
 }
 
 interface editorOptions {
-    saveHotky?: boolean;
+    saveHotkey?: boolean;
 }
 
 class CodeEditor extends Component<CodeEditorProps, CodeEditorState> {
@@ -38,7 +38,7 @@ class CodeEditor extends Component<CodeEditorProps, CodeEditorState> {
     }
 
     registerOptions = (opt: editorOptions) => {
-        if (opt.saveHotky) {
+        if (opt.saveHotkey) {
             hotkeys("ctrl+s", event => {
                 event.preventDefault();
                 this.saveEditorDataFromState();

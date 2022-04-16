@@ -45,32 +45,6 @@
   },
   "Editors": [
     {
-      "name": "Scs_Editor",
-      "logo": "scs.svg",
-      "codeViewer": false,
-      "Languages": {
-        "scs": [
-          "scs"
-        ],
-        "gwf": [
-          "gwf"
-        ]
-      }
-    },
-    {
-      "name": "Blockly",
-      "logo": "blockly.svg",
-      "codeViewer": true,
-      "Languages": {
-        "html": [
-          "html"
-        ],
-        "css": [
-          "css"
-        ]
-      }
-    },
-    {
       "name": "Monaco",
       "codeViewer": false,
       "logo": "monaco.svg",
@@ -210,6 +184,32 @@
         ],
         "xml": [
           "xml"
+        ]
+      }
+    },
+    {
+      "name": "Scs_Editor",
+      "logo": "scs.svg",
+      "codeViewer": false,
+      "Languages": {
+        "scs": [
+          "scs"
+        ],
+        "gwf": [
+          "gwf"
+        ]
+      }
+    },
+    {
+      "name": "Blockly",
+      "logo": "blockly.svg",
+      "codeViewer": true,
+      "Languages": {
+        "html": [
+          "html"
+        ],
+        "css": [
+          "css"
         ]
       }
     },
