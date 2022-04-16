@@ -96,7 +96,7 @@ export class WindowsLayout extends React.PureComponent<{ theme: Theme },
                     key={this.state.openDocument}
                     theme={THEMES[this.state.currentTheme]}
                 />,
-            ]),
+            ]) as JSX.Element[],
             body: this.state.openDocument !== "" && (
                 <FilesTabs
                     currentTabId={this.state.openDocument}
@@ -143,13 +143,13 @@ export class WindowsLayout extends React.PureComponent<{ theme: Theme },
                 >
                     open in new window
                 </Button>,
-            ]),
+            ]) as JSX.Element[],
             body:
                 <Viewport document={this.state.openDocument}/>
         },
         {
             name: "Explorer",
-            toolbarControls: React.Children.toArray([]),
+            toolbarControls: React.Children.toArray([]) as JSX.Element[],
             body: (
                 <div>
                     <Explorer openFile={this.openFile}/>
@@ -158,7 +158,7 @@ export class WindowsLayout extends React.PureComponent<{ theme: Theme },
         },
         {
             name: "Apps",
-            toolbarControls: React.Children.toArray([]),
+            toolbarControls: React.Children.toArray([]) as JSX.Element[],
             body: (
                 <div>
                     <Button> ahahahah </Button>

@@ -201,19 +201,6 @@
       }
     },
     {
-      "name": "Blockly",
-      "logo": "blockly.svg",
-      "codeViewer": true,
-      "Languages": {
-        "html": [
-          "html"
-        ],
-        "css": [
-          "css"
-        ]
-      }
-    },
-    {
       "name": "JsonView",
       "logo": "jsonview.svg",
       "codeViewer": false,

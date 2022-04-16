@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import StorageManager, {editorDataDefaultValue} from "../../Storage/storageManager";
 import {getDocumentLanguage} from "../../Storage/fileutils";
-import Blockly from "../../Editor/Code_Editors/Blockly_Editor/blockly_Editor";
 import Monaco from "../../Editor/Code_Editors/Monaco_Editor/Monaco_Editor";
 import {Button, ButtonGroup, Card} from "@blueprintjs/core";
 import JsonView from "../../Editor/Code_Editors/Json_View/Json_View";
@@ -10,7 +9,6 @@ import MDEditor from "../../Editor/Code_Editors/MDE_Editor/MDE_Editor";
 import Scs_Editor from "../../Editor/Code_Editors/Scs_Editor/Scs_Editor";
 
 const Editors = {
-    Blockly,
     Monaco,
     JsonView,
     CKEditorEditor,
