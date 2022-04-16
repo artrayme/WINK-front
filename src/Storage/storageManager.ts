@@ -3,6 +3,7 @@ import {ErrorCode} from "browserfs/dist/node/core/api_error";
 
 import {FSModule} from "browserfs/dist/node/core/FS";
 import Stats from "browserfs/dist/node/core/node_fs_stats";
+import {GlobalConfig} from "../globalConfig";
 
 const electron = window.require('electron');
 const remote = electron.remote;
@@ -19,9 +20,7 @@ export interface editorDataObjectInterface {
     editorData: string;
 }
 
-export let projectFolder = "TestProject"
-export const codeDir = "/home/artrayme/WinkProjects/TestProject/";
-export const editorDataDefaultValue = '{"editor":"","editorData":""}';
+export let editorDataDefaultValue = '{"editor":"","editorData":""}';
 export default class StorageManager {
     fileSystem: FSModule;
 
@@ -34,7 +33,7 @@ export default class StorageManager {
         return new Promise(async (resolve, reject) => {
             try {
                 resolve({
-                    code: await this.getFile(path, codeDir),
+                    code: await this.getFile(path, GlobalConfig.codeDir),
                 });
             } catch (e) {
                 reject(e);
@@ -44,7 +43,7 @@ export default class StorageManager {
 
     syncGetDocument(path: string) {
         return {
-            code: this.syncGetFile(path, codeDir),
+            code: this.syncGetFile(path, GlobalConfig.codeDir),
         };
     }
 
@@ -90,7 +89,7 @@ export default class StorageManager {
         code = "",
     ) {
         return Promise.all([
-            this.setFile(path, code, codeDir),
+            this.setFile(path, code, GlobalConfig.codeDir),
         ]);
     }
 
@@ -101,7 +100,7 @@ export default class StorageManager {
         onErorr?: (error: BrowserFS.Errors.ApiError) => void
     ) {
         if (code) {
-            this.setFile(path, code, codeDir).catch(e => {
+            this.setFile(path, code, GlobalConfig.codeDir).catch(e => {
                 if (onErorr) {
                     onErorr(e);
                 }
@@ -148,14 +147,12 @@ export default class StorageManager {
 
     //make directory
     syncMakeDirectory(path: string) {
-        this.syncCreateDirectory(path, codeDir);
-        // this.syncCreateDirectory(path, editorDataDir);
+        this.syncCreateDirectory(path, GlobalConfig.codeDir);
     }
 
     makeDirectory(path: string) {
         return Promise.all([
-            this.createDirectory(path, codeDir),
-            // this.createDirectory(path, editorDataDir)
+            this.createDirectory(path, GlobalConfig.codeDir),
         ]);
     }
 
@@ -221,8 +218,7 @@ export default class StorageManager {
     //delete file
     removeDocument(path: string) {
         return Promise.all([
-            this.removeFile(path, codeDir),
-            // this.removeFile(path, editorDataDir)
+            this.removeFile(path, GlobalConfig.codeDir),
         ]);
     }
 
@@ -241,8 +237,7 @@ export default class StorageManager {
     //delete folder
     removeDocumentDirectory(path: string) {
         return Promise.all([
-            this.removeDirectory(path, codeDir),
-            // this.removeDirectory(path, editorDataDir)
+            this.removeDirectory(path, GlobalConfig.codeDir),
         ]);
     }
 
@@ -416,8 +411,7 @@ export default class StorageManager {
     //rename
     renameDocument(path: string, newPath: string) {
         return Promise.all([
-            // this.renameFile(path, newPath, editorDataDir),
-            this.renameFile(path, newPath, codeDir)
+            this.renameFile(path, newPath, GlobalConfig.codeDir)
         ]);
     }
 
@@ -457,7 +451,6 @@ export default class StorageManager {
     }
 
     getHomePath(){
-        // @ts-ignore
-        return remote.getPath('home');
+        return remote.app.getPath('home')
     }
 }

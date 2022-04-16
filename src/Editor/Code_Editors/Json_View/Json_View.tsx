@@ -1,9 +1,6 @@
 import React from "react";
 import CodeEditor from "../../CodeEditor";
-// import ReactJson from "react-json-view";
-// import {Alignment, ControlGroup, Navbar, NavbarGroup, NumericInput, Tag} from "@blueprintjs/core";
 import JSONInput from 'react-json-editor-ajrm';
-import locale from 'react-json-editor-ajrm/locale/en';
 
 export default class JsonView extends CodeEditor {
 

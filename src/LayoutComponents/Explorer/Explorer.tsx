@@ -5,7 +5,8 @@ import CreateFile from "./actions/Create";
 import DeleteFile from "./actions/Delete";
 import RenameFile from "./actions/Rename";
 import Scrollbars from "react-custom-scrollbars";
-import StorageManager, {codeDir} from "../../Storage/storageManager";
+import StorageManager from "../../Storage/storageManager";
+import {GlobalConfig} from "../../globalConfig";
 
 interface nodeData {
     path: string;
@@ -169,7 +170,7 @@ class Explorer extends Component<ExplorerProps, ExplorerState> {
                                 ) => {
                                     const currentID = index + id;
                                     if (file.isDirectory) {
-                                        makeLevel(file.path + "/", codeDir, currentID + 1).then(
+                                        makeLevel(file.path + "/", GlobalConfig.codeDir, currentID + 1).then(
                                             tree => {
                                                 levelTree.push({
                                                     id: currentID,
@@ -199,7 +200,7 @@ class Explorer extends Component<ExplorerProps, ExplorerState> {
         };
         return new Promise(
             (resolve: (nodes: ITreeNode<nodeData>[]) => void, reject) => {
-                makeLevel("", codeDir)
+                makeLevel("", GlobalConfig.codeDir)
                     .then(res => {
                         resolve(res);
                     })

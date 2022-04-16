@@ -1,14 +1,19 @@
 import React from "react";
 import CodeEditor, {CodeEditorProps} from "../../CodeEditor";
-import Editor from 'react-monaco-editor';
-import {editor} from "monaco-editor";
+import MonacoEditor from 'react-monaco-editor';
 import {config, getCompletionProvider, language, scsTheme} from "../../../Utilities/scs-support";
 import {convertOldGwfToNew} from "../../../Utilities/ScgConverter";
 import {convertGwfToScs} from "../../../Utilities/ScsConverter";
 
+const editorWillMount = monaco => {
+    monaco.languages.register({ id: 'scs' });
+    monaco.languages.registerCompletionItemProvider('scs', getCompletionProvider(monaco));
+    monaco.languages.setMonarchTokensProvider('scs', language);
+    monaco.languages.setLanguageConfiguration('scs', config);
+    monaco.editor.defineTheme('scs', scsTheme);
+}
 
 export default class Scs_Editor extends CodeEditor {
-    editor: editor.IStandaloneCodeEditor | null;
     isSaved: boolean;
 
     constructor(props: CodeEditorProps) {
@@ -25,19 +30,9 @@ export default class Scs_Editor extends CodeEditor {
             code: code,
             editorData: ''
         };
-        this.editor = null;
         this.isSaved = true;
         this.editorOptions = {saveHotkey: true};
         this.registerOptions(this.editorOptions);
-    }
-
-    editorWillMount = monaco => {
-        this.editor = monaco.editor
-        monaco.languages.register({id: 'scs'});
-        monaco.languages.registerCompletionItemProvider('scs', getCompletionProvider(monaco));
-        monaco.languages.setMonarchTokensProvider('scs', language);
-        monaco.languages.setLanguageConfiguration('scs', config);
-        monaco.editor.defineTheme('scs', scsTheme);
     }
 
     componentDidMount = () => {
@@ -50,7 +45,7 @@ export default class Scs_Editor extends CodeEditor {
         monaco.languages.setMonarchTokensProvider('scs', language);
         monaco.languages.setLanguageConfiguration('scs', config);
         monaco.editor.defineTheme('scs', scsTheme);
-        // editor.focus();
+        editor.focus();
     }
 
     onChange = (newValue) => {
@@ -61,15 +56,15 @@ export default class Scs_Editor extends CodeEditor {
     render() {
         return (
             <div style={{zIndex: 5}}>
-                <Editor
+                <MonacoEditor
                     language="scs"
                     theme={"scs"}
-                    options={{
-                        automaticLayout: true
-                    }}
+                    // options={{
+                    //     automaticLayout: true
+                    // }}
                     value={this.state.code}
                     onChange={this.onChange.bind(this)}
-                    editorWillMount={this.editorWillMount}
+                    editorWillMount={editorWillMount}
                     editorDidMount={this.editorDidMount}
                 />
             </div>

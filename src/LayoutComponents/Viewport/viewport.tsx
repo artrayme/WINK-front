@@ -1,8 +1,8 @@
 import React, {Component} from "react";
 
-import StorageManager, {codeDir} from "../../Storage/storageManager";
+import StorageManager from "../../Storage/storageManager";
 import {getDocumentLanguage} from "../../Storage/fileutils";
-
+import {GlobalConfig} from "../../globalConfig";
 interface ViewportProps {
     document: string | null;
 }
@@ -35,7 +35,7 @@ class Viewport extends Component<ViewportProps, ViewportState> {
 
     codeTick() {
         if (this.props.document) {
-            this.Storage.getFile(this.props.document, codeDir).then((data) => {
+            this.Storage.getFile(this.props.document, GlobalConfig.codeDir).then((data) => {
                 this.setState({
                     code: data,
                 });
@@ -45,11 +45,11 @@ class Viewport extends Component<ViewportProps, ViewportState> {
 
     render() {
         return <div style={{height: "99%"}}>
-            <iframe
-                title="struct view"
-                src="http://127.0.0.1:8000?sys_id=section_disadvantages_modern_technologies_of_computer_systems_design&scg_structure_view_only=true"
-                className="Fill"
-            />
+            {/*<iframe*/}
+            {/*    title="struct view"*/}
+            {/*    src="http://127.0.0.1:8000?sys_id=section_disadvantages_modern_technologies_of_computer_systems_design&scg_structure_view_only=true"*/}
+            {/*    className="Fill"*/}
+            {/*/>*/}
         </div>
 
     }
