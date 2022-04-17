@@ -97,12 +97,12 @@ export default class StorageManager {
         path: string,
         code?: string,
         editorDataObject?: editorDataObjectInterface,
-        onErorr?: (error: BrowserFS.Errors.ApiError) => void
+        onError?: (error: BrowserFS.Errors.ApiError) => void
     ) {
         if (code) {
             this.setFile(path, code, GlobalConfig.codeDir).catch(e => {
-                if (onErorr) {
-                    onErorr(e);
+                if (onError) {
+                    onError(e);
                 }
             });
         }
