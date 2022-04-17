@@ -45,10 +45,6 @@ interface tab {
 export class WindowsLayout extends React.PureComponent<{ theme: Theme },
     WindowsLayoutState> {
 
-    constructor(props: { theme: Theme }) {
-        super(props);
-    }
-
     state: WindowsLayoutState = {
         currentNode: {
             direction: "row",

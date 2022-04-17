@@ -1,3 +1,5 @@
+/* eslint-disable no-useless-escape */
+
 export const kLangName = 'scs';
 
 const kKeywords = [
@@ -32,11 +34,11 @@ export function getCompletionProvider(monaco) {
             const result = [];
 
             kKeywords.forEach((key) => {
-                result.push({label: key, kind: monaco.languages.CompletionItemKind.Keyword});
+                result.push({ label: key, kind: monaco.languages.CompletionItemKind.Keyword });
             });
 
             kConnectors.forEach((key) => {
-                result.push({label: key, kind: monaco.languages.CompletionItemKind.Keyword});
+                result.push({ label: key, kind: monaco.languages.CompletionItemKind.Keyword });
             });
 
             return result;
@@ -49,11 +51,11 @@ export const scsTheme = {
     inherit: true,
     colors: {},
     rules: [
-        {token: 'delimiter', foreground: 'e06c75', fontStyle: 'italic'},
-        {token: 'content.internal', foreground: 'F1FA8C', fontStyle: 'italic'},
-        {token: 'content.internal.escape', foreground: 'FFB86C', fontStyle: 'italic'},
-        {token: 'keyword', foreground: 'FF79C6'},
-        {token: 'identifier', foreground: '61afef'}
+        { token: 'delimiter', foreground: 'e06c75', fontStyle: 'italic' },
+        { token: 'content.internal', foreground: 'F1FA8C', fontStyle: 'italic' },
+        { token: 'content.internal.escape', foreground: 'FFB86C', fontStyle: 'italic' },
+        { token: 'keyword', foreground: 'FF79C6' },
+        { token: 'identifier', foreground: '61afef' }
     ]
 };
 
@@ -68,18 +70,18 @@ export const config = {
         ['(', ')']
     ],
     autoClosingPairs: [
-        {open: '[', close: ']'},
-        {open: '{', close: '}'},
-        {open: '(', close: ')'},
-        {open: '\'', close: '\'', notIn: ['string', 'comment']},
-        {open: '"', close: '"', notIn: ['string']},
+        { open: '[', close: ']' },
+        { open: '{', close: '}' },
+        { open: '(', close: ')' },
+        { open: '\'', close: '\'', notIn: ['string', 'comment'] },
+        { open: '"', close: '"', notIn: ['string'] },
     ],
     surroundingPairs: [
-        {open: '{', close: '}'},
-        {open: '[', close: ']'},
-        {open: '(', close: ')'},
-        {open: '"', close: '"'},
-        {open: '\'', close: '\''},
+        { open: '{', close: '}' },
+        { open: '[', close: ']' },
+        { open: '(', close: ')' },
+        { open: '"', close: '"' },
+        { open: '\'', close: '\'' },
     ]
 };
 
@@ -87,99 +89,99 @@ export const language = {
     tokenPostfix: '.scs',
     defaultToken: '',
     brackets: [
-        {open: '{', close: '}', token: 'delimiter.curly'},
-        {open: '[', close: ']', token: 'delimiter.square'},
-        {open: '(', close: ')', token: 'delimiter.parenthesis'},
+        { open: '{', close: '}', token: 'delimiter.curly' },
+        { open: '[', close: ']', token: 'delimiter.square' },
+        { open: '(', close: ')', token: 'delimiter.parenthesis' },
     ],
     keywords: kKeywords,
 
     tokenizer: {
 
-        root: [{include: '@selector'}],
+        root: [{ include: '@selector' }],
 
         selector: [
-            {include: '@whitespace'},
-            {include: '@contours'},
-            {include: '@contents'},
-            {include: '@strings'},
-            {include: '@brackets'},
+            { include: '@whitespace' },
+            { include: '@contours' },
+            { include: '@contents' },
+            { include: '@strings' },
+            { include: '@brackets' },
 
             // connectors
-            {include: '@connectors'},
+            { include: '@connectors' },
 
             // identifiers and keywords
             {
                 regex: /[a-zA-Z_0-9]\w*/, action: {
                     cases: {
-                        '@keywords': {token: 'keyword'},
-                        '@default': {token: 'identifier'}
+                        '@keywords': { token: 'keyword' },
+                        '@default': { token: 'identifier' }
                     }
                 }
             },
-            {regex: /([_]?[.]{0,2})?([a-zA-Z0-9_]+)/, action: {token: 'identifier'}},
+            { regex: /([_]?[.]{0,2})?([a-zA-Z0-9_]+)/, action: { token: 'identifier' } },
         ],
 
         brackets: [
-            {regex: /[(\[][*]/, action: {token: 'delimiter'}},
-            {regex: /[*][)\]]/, action: {token: 'delimiter'}},
-            {regex: /[{}()\[\]]/, action: {token: '@brackets'}}
+            { regex: /[(\[][*]/, action: { token: 'delimiter' } },
+            { regex: /[*][)\]]/, action: { token: 'delimiter' } },
+            { regex: /[{}()\[\]]/, action: { token: '@brackets' } }
         ],
 
         connectors: [
-            {regex: /\s*[_]?([-~][\/|]?)>\s*/, action: {token: 'operators'}},
-            {regex: /\s*[_]?<([\/|]?[-~])\s*/, action: {token: 'operators'}},
-            {regex: /\s*[_]?((=>)|(<=))\s*/, action: {token: 'operators'}},
-            {regex: /\s*([_]?<=>)|([.]{0,2}>|<[.]{0,2})\s*/, action: {token: 'operators'}}
+            { regex: /\s*[_]?([-~][\/|]?)>\s*/, action: { token: 'operators' } },
+            { regex: /\s*[_]?<([\/|]?[-~])\s*/, action: { token: 'operators' } },
+            { regex: /\s*[_]?((=>)|(<=))\s*/, action: { token: 'operators' } },
+            { regex: /\s*([_]?<=>)|([.]{0,2}>|<[.]{0,2})\s*/, action: { token: 'operators' } }
         ],
 
         contours: [
-            {regex: /~?(\[[*])/, action: {token: 'delimiter', next: '@contour'}},
+            { regex: /~?(\[[*])/, action: { token: 'delimiter', next: '@contour' } },
         ],
 
         contour: [
-            {regex: /[*]\]/, action: {token: 'delimiter', next: '@pop'}},
-            {regex: /(?!([*][\]]))/, action: {token: 'contour.internal', next: '@root'}}
+            { regex: /[*]\]/, action: { token: 'delimiter', next: '@pop' } },
+            { regex: /(?!([*][\]]))/, action: { token: 'contour.internal', next: '@root' } }
         ],
 
         contents: [
-            {regex: /~?\[/, action: {token: 'delimiter', next: '@content'}}
+            { regex: /~?\[/, action: { token: 'delimiter', next: '@content' } }
         ],
 
         content: [
-            {regex: '\\\\.', action: {token: 'content.internal'}},
-            {regex: ']', action: {token: 'delimiter', next: '@pop'}},
-            {regex: /[^\[\]]+/, action: {token: 'content.internal.escape'}},
-            {regex: '.', action: {token: 'content.internal'}}
+            { regex: '\\\\.', action: { token: 'content.internal' } },
+            { regex: ']', action: { token: 'delimiter', next: '@pop' } },
+            { regex: /[^\[\]]+/, action: { token: 'content.internal.escape' } },
+            { regex: '.', action: { token: 'content.internal' } }
         ],
 
         strings: [
-            {regex: '~?"', action: {token: 'string', next: '@stringenddoublequote'}},
+            { regex: '~?"', action: { token: 'string', next: '@stringenddoublequote' } },
         ],
 
         stringenddoublequote: [
-            {regex: '\\\\.', action: {token: 'string'}},
-            {regex: '"', action: {token: 'string', next: '@pop'}},
-            {regex: /[^\\"]+/, action: {token: 'string'}},
-            {regex: '.', action: {token: 'string'}}
+            { regex: '\\\\.', action: { token: 'string' } },
+            { regex: '"', action: { token: 'string', next: '@pop' } },
+            { regex: /[^\\"]+/, action: { token: 'string' } },
+            { regex: '.', action: { token: 'string' } }
         ],
 
         comment: [
-            {regex: /[^\/*]+/, action: {token: 'comment'}},
-            {regex: /\*\//, action: {token: 'comment', next: '@pop'}},
-            {regex: /[\/*]/, action: {token: 'comment'}}
+            { regex: /[^\/*]+/, action: { token: 'comment' } },
+            { regex: /\*\//, action: { token: 'comment', next: '@pop' } },
+            { regex: /[\/*]/, action: { token: 'comment' } }
         ],
 
         doccomment: [
-            {regex: /[^\/*]+/, action: {token: 'comment.doc'}},
-            {regex: /\*\//, action: {token: 'comment.doc', next: '@pop'}},
-            {regex: /[\/*]/, action: {token: 'comment.doc'}}
+            { regex: /[^\/*]+/, action: { token: 'comment.doc' } },
+            { regex: /\*\//, action: { token: 'comment.doc', next: '@pop' } },
+            { regex: /[\/*]/, action: { token: 'comment.doc' } }
         ],
 
         whitespace: [
-            {regex: /[ \t\r\n]+/, action: {token: ''}},
-            {regex: /\/\*\*(?!\/)/, action: {token: 'comment.doc', next: '@doccomment'}},
-            {regex: /\/\*/, action: {token: 'comment', next: '@comment'}},
-            {regex: /\/\/.*$/, action: {token: 'comment'}},
+            { regex: /[ \t\r\n]+/, action: { token: '' } },
+            { regex: /\/\*\*(?!\/)/, action: { token: 'comment.doc', next: '@doccomment' } },
+            { regex: /\/\*/, action: { token: 'comment', next: '@comment' } },
+            { regex: /\/\/.*$/, action: { token: 'comment' } },
         ],
     }
 };

@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import WindowsLayout, {Theme, THEMES} from "./WindowsLayout";
+import WindowsLayout from "./WindowsLayout";
 import {PersistConfigStruct, loadConfig} from "./Storage/initConfig";
 import {GlobalConfig} from "./globalConfig";
 import StorageManager from "./Storage/storageManager";

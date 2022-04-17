@@ -101,6 +101,3 @@ export default class ProjectNavbar extends Component<NavbarProps, NavbarState> {
         );
     }
 }
-const ButtonGroupStyle: React.CSSProperties = {
-    width: 200
-};

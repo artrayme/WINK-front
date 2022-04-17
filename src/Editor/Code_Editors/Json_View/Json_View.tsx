@@ -35,7 +35,7 @@ export default class JsonView extends CodeEditor {
 
     //ToDo config
     render() {
-        const code = this.makeJSON(this.state.code);
+        this.makeJSON(this.state.code);
         return (
             <JSONInput
                 height="100%"
