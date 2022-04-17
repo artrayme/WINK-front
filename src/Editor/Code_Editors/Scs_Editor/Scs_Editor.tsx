@@ -59,9 +59,9 @@ export default class Scs_Editor extends CodeEditor {
                 <MonacoEditor
                     language="scs"
                     theme={"scs"}
-                    // options={{
-                    //     automaticLayout: true
-                    // }}
+                    options={{
+                        automaticLayout: true
+                    }}
                     value={this.state.code}
                     onChange={this.onChange.bind(this)}
                     editorWillMount={editorWillMount}
