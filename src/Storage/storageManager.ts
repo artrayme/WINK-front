@@ -450,7 +450,7 @@ export default class StorageManager {
         return false;
     }
 
-    getHomePath(){
+    getHomePath() {
         return remote.app.getPath('home')
     }
 }

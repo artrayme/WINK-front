@@ -9,7 +9,8 @@ const createWindow = async () => {
         height: 800,
         webPreferences: {
             nodeIntegration: true,
-            enableRemoteModule: true
+            enableRemoteModule: true,
+            nodeIntegrationInWorker: true
         }
     })
     await mainWindow.loadURL("http://localhost:3000");
