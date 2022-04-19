@@ -1,7 +1,7 @@
 import React, {Component} from "react";
-import WindowsLayout from "./WindowsLayout";
-import {PersistConfigStruct, loadConfig} from "./Storage/initConfig";
-import {GlobalConfig} from "./globalConfig";
+import WindowsLayout, {Theme} from "./WindowsLayout";
+import {loadConfig, PersistConfigStruct} from "./Storage/initConfig";
+import {AutocompleteConfig, GlobalConfig, ServerConfig} from "./globalConfig";
 import StorageManager from "./Storage/storageManager";
 
 const pathToConfigFile = "WinkProjects/.config/config.json";
@@ -13,16 +13,19 @@ class InitComponent extends Component {
     constructor(props: {}) {
         super(props);
         let struct = loadConfig(pathToConfigFile)
-        GlobalConfig.history = struct;
-        GlobalConfig.codeDir = new StorageManager().getHomePath() + '/' + winkProjectFolder +'/' + struct.currentProject + '/'
+        GlobalConfig.codeDir = new StorageManager().getHomePath() + '/' + winkProjectFolder + '/' + struct.currentProject + '/'
         GlobalConfig.projectName = struct.currentProject
-        GlobalConfig.theme = 'nnp'
+        GlobalConfig.theme = struct.theme
+        ServerConfig.scWinkBackUri = struct.scWinkBackUri
+        ServerConfig.scWebsocketUri = struct.scWebsocketUri
+        ServerConfig.scWebUri = struct.scWebUri
+        AutocompleteConfig.limit = struct.limit
     }
 
     render() {
         return (
             <div>
-                <WindowsLayout theme={GlobalConfig.theme}/>
+                <WindowsLayout theme={GlobalConfig.theme as Theme}/>
             </div>
         );
     }

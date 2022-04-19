@@ -1,11 +1,16 @@
-import {PersistConfigStruct} from "./Storage/initConfig";
-import {Theme} from "./WindowsLayout";
-
-export class GlobalConfig {
-    static history: PersistConfigStruct
-    static codeDir: string
-    static projectName: string
-    static theme: Theme
+export class AutocompleteConfig {
+    static limit: number
 }
 
+export class ServerConfig {
+    static scWinkBackUri: string
+    static scWebUri: string
+    static scWebsocketUri: string
+}
+
+export class GlobalConfig {
+    static codeDir: string
+    static projectName: string
+    static theme: string
+}
 
