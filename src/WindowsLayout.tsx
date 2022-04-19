@@ -15,7 +15,6 @@ import "@blueprintjs/core/lib/css/blueprint.css";
 import "@blueprintjs/icons/lib/css/blueprint-icons.css";
 
 import Explorer from "./LayoutComponents/Explorer/Explorer";
-import ProjectNavbar from "./LayoutComponents/navbar/ProjectNavbar";
 import Viewport from "./LayoutComponents/Viewport/viewport";
 import {EditorTabs, FilesTabs} from "./UIComponents/tabs";
 import "./mosaic.css";
@@ -85,14 +84,7 @@ export class WindowsLayout extends React.PureComponent<{ theme: Theme },
         {
             name: "Editor",
             draggable: false,
-            toolbarControls: React.Children.toArray([
-                <ProjectNavbar
-                    document={this.state.openDocument}
-                    openFile={this.openFile}
-                    key={this.state.openDocument}
-                    theme={THEMES[this.state.currentTheme]}
-                />,
-            ]) as JSX.Element[],
+            toolbarControls: React.Children.toArray([]) as JSX.Element[],
             body: this.state.openDocument !== "" && (
                 <FilesTabs
                     currentTabId={this.state.openDocument}
@@ -122,10 +114,12 @@ export class WindowsLayout extends React.PureComponent<{ theme: Theme },
                 <Button
                     onClick={() => {
 
-                        window.open(
-                            'http://127.0.0.1:8000?sys_id=section_disadvantages_modern_technologies_of_computer_systems_design&scg_structure_view_only=true',
-                            'NewWindowViewPort',
-                            'toolbar=0,status=0,width=548,height=325');
+                        //ToDo open sc-web in new window
+
+                        // window.open(
+                        //     'http://127.0.0.1:8000?sys_id=section_disadvantages_modern_technologies_of_computer_systems_design&scg_structure_view_only=true',
+                        //     'NewWindowViewPort',
+                        //     'toolbar=0,status=0,width=548,height=325');
 
                         // window.open(
                         //     "./webView/" + this.state.openDocument,
