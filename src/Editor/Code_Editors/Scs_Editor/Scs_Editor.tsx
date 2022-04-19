@@ -4,9 +4,10 @@ import MonacoEditor from 'react-monaco-editor';
 import {config, getCompletionProvider, language, scsTheme} from "../../../Utilities/scs-support";
 import {convertOldGwfToNew} from "../../../Utilities/ScgConverter";
 import {convertGwfToScs} from "../../../Utilities/ScsConverter";
+import {getDocumentLanguage} from "../../../Storage/fileutils";
 
 const editorWillMount = monaco => {
-    monaco.languages.register({ id: 'scs' });
+    monaco.languages.register({id: 'scs'});
     monaco.languages.registerCompletionItemProvider('scs', getCompletionProvider(monaco));
     monaco.languages.setMonarchTokensProvider('scs', language);
     monaco.languages.setLanguageConfiguration('scs', config);
@@ -19,7 +20,7 @@ export default class Scs_Editor extends CodeEditor {
     constructor(props: CodeEditorProps) {
         super(props);
         let code = this.state.code
-        if (this.state.documentName.endsWith('.gwf')) {
+        if (getDocumentLanguage(this.state.documentName) === 'gwf') {
             code = convertOldGwfToNew(code)
             code = convertGwfToScs(code)
         }
