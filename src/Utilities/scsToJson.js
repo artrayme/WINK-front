@@ -11,17 +11,17 @@ function fromTripleToJson(triple) {
 }
 
 function getTypeValue(type) {
-    if (type == "sc_node") {
+    if (type === "sc_node") {
         return 1;
-    } else if (type == "sc_link") {
+    } else if (type === "sc_link") {
         return 2;
-    } else if (type == "sc_edge_dcommon") {
+    } else if (type === "sc_edge_dcommon") {
         return 8;
-    } else if (type == "sc_edge_ucommon") {
+    } else if (type === "sc_edge_ucommon") {
         return 4;
-    } else if (type == "sc_edge_main") { // HELP
+    } else if (type === "sc_edge_main") { // HELP
 
-    } else if (type == "sc_edge_access") {
+    } else if (type === "sc_edge_access") {
         return 16;
     }
 }
@@ -59,8 +59,8 @@ function readFile(sourceFileName) {
 }
 
 function getJsonFromTextWithPattern(sourceFileName, regex) {
-    var result = [];
-    var fileData = readFile(sourceFileName).match(regex);
+    const result = [];
+    let fileData = readFile(sourceFileName).match(regex);
     if (fileData) {
         let temp = []
         fileData.forEach(item => {
@@ -79,7 +79,7 @@ function getJsonFromTextWithPattern(sourceFileName, regex) {
     return result;
 }
 
-function scsToJson(sourceFileName) {
+export function scsToJson(sourceFileName) {
     const levelOneBaseRegex = /(.+\#\w+)(\s*\t*\n*\r*)\|(\s*\t*\n*\r*)(.+\#(.+))(\s*\t*\n*\r*)\|(\s*\t*\n*\r*)(.+\#.+)(\s*\t*\n*\r*);(\s*\t*\n*\r*);/g;
     const levelTwoBaseRegex = '//g';
     const result = Object.assign({},
