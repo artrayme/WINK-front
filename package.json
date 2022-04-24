@@ -27,7 +27,8 @@
     "react-scrollbar": "^0.5.6",
     "require-from-string": "^2.0.2",
     "styled-components": "^4.4.1",
-    "typescript": "^3.9.10"
+    "typescript": "^3.9.10",
+    "antlr4ts": "^0.5.0-alpha.4"
   },
   "main": "src/electron.js",
   "scripts": {

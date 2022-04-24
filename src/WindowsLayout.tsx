@@ -15,9 +15,9 @@ import "@blueprintjs/core/lib/css/blueprint.css";
 import "@blueprintjs/icons/lib/css/blueprint-icons.css";
 
 import Explorer from "./LayoutComponents/Explorer/Explorer";
-import Viewport from "./LayoutComponents/Viewport/viewport";
 import {EditorTabs, FilesTabs} from "./UIComponents/tabs";
 import "./mosaic.css";
+import ScWebViewport from "./LayoutComponents/Viewport/scWebViewport";
 
 export const THEMES = {
     light: "mosaic-blueprint-theme",
@@ -121,12 +121,6 @@ export class WindowsLayout extends React.PureComponent<{ theme: Theme },
                         //     'NewWindowViewPort',
                         //     'toolbar=0,status=0,width=548,height=325');
 
-                        // window.open(
-                        //     "./webView/" + this.state.openDocument,
-                        //     "NewWindowViewPort",
-                        //     "width=550,height=700"
-                        // );
-
                     }}
                     minimal
                     icon="application"
@@ -135,7 +129,7 @@ export class WindowsLayout extends React.PureComponent<{ theme: Theme },
                 </Button>,
             ]) as JSX.Element[],
             body:
-                <Viewport document={this.state.openDocument}/>
+                <ScWebViewport document={this.state.openDocument}/>
         },
         {
             name: "Explorer",
@@ -151,7 +145,9 @@ export class WindowsLayout extends React.PureComponent<{ theme: Theme },
             toolbarControls: React.Children.toArray([]) as JSX.Element[],
             body: (
                 <div>
-                    <Button> ahahahah </Button>
+                    <Button onClick={() => {
+
+                    }}>Save </Button>
                     {/*<AppLauncher />*/}
                 </div>
             ),

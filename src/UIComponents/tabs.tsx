@@ -89,7 +89,7 @@ interface IconsTabsProps {
     tabs: {
         id: string;
         icon: IconName;
-        childerns: React.ReactNode;
+        childes: React.ReactNode;
         heading: string;
     }[];
     currentTabId: React.ReactText;
@@ -117,7 +117,7 @@ export const IconsTabs = (props: IconsTabsProps) => {
                 </Navbar.Group>
             </Navbar>
             {props.betweenComponent}
-            {props.tabs.find(tab => currentTabId === tab.id).childerns}
+            {props.tabs.find(tab => currentTabId === tab.id).childes}
         </div>
     );
 };
