@@ -7,13 +7,15 @@ import JsonView from "../../Editor/Code_Editors/Json_View/Json_View";
 import CKEditorEditor from "../../Editor/Code_Editors/CKEditor_Editor/CKEditor_Editor";
 import MDEditor from "../../Editor/Code_Editors/MDE_Editor/MDE_Editor";
 import Scs_Editor from "../../Editor/Code_Editors/Scs_Editor/Scs_Editor";
+import RdfEditor from "../../Editor/Code_Editors/Rdf_Editor/Rdf_Editor";
 
 const Editors = {
     Monaco,
     JsonView,
     CKEditorEditor,
     MDEditor,
-    Scs_Editor
+    Scs_Editor,
+    RdfEditor
 };
 
 interface EditorLauncherState {

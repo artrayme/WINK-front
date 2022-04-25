@@ -220,6 +220,15 @@
       }
     },
     {
+      "name": "RdfEditor",
+      "logo": "scs.svg",
+      "Languages": {
+        "rdf": [
+          "rdf"
+        ]
+      }
+    },
+    {
       "name": "MDEditor",
       "logo": "md.png",
       "Languages": {
