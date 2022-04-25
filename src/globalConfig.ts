@@ -14,3 +14,6 @@ export class GlobalConfig {
     static theme: string
 }
 
+export class GlobalState {
+    static currentUri: string = ""
+}
