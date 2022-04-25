@@ -1,25 +1,29 @@
 import React, {Component} from "react";
-import {ServerConfig} from "../../globalConfig";
+import {GlobalState, ServerConfig} from "../../globalConfig";
+import { Button } from "@blueprintjs/core";
 
 class ScWebViewport extends Component<any> {
 
-    mainIdtf: string = 'section_disadvantages_modern_technologies_of_computer_systems_design'
+    state = {
+        requirementKey: Math.random()
+    };
+
 
     constructor() {
-        super("");
+        super("")
         // @ts-ignore
     }
 
     getFullUri() {
-        return ServerConfig.scWebUri + '?sys_id=' + this.mainIdtf + "&scg_structure_view_only=true"
-    }
-
-    setMainIdtf(idtf: string) {
-        this.mainIdtf = idtf;
+        return ServerConfig.scWebUri + '?sys_id=' + GlobalState.currentUri + "&scg_structure_view_only=true"
     }
 
     render() {
         return <div style={{height: "99%"}}>
+            <Button onClick={()=>{
+                this.setState({ requirementKey: Math.random() });
+            }
+            }>refresh</Button>
             <iframe
                 title="struct view"
                 src={this.getFullUri()}
