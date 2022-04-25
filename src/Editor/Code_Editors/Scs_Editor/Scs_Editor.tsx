@@ -5,6 +5,8 @@ import {config, getCompletionProvider, language, scsTheme} from "../../../Utilit
 import {convertOldGwfToNew} from "../../../Utilities/ScgConverter";
 import {convertGwfToScs} from "../../../Utilities/ScsConverter";
 import {getDocumentLanguage} from "../../../Storage/fileutils";
+import {Switch} from "@blueprintjs/core";
+import {saveScs} from "../../../Server/ServerSaver";
 
 const editorWillMount = monaco => {
     monaco.languages.register({id: 'scs'});
@@ -16,6 +18,7 @@ const editorWillMount = monaco => {
 
 export default class Scs_Editor extends CodeEditor {
     isSaved: boolean;
+    isUploaded: boolean = false;
 
     constructor(props: CodeEditorProps) {
         super(props);
@@ -54,9 +57,23 @@ export default class Scs_Editor extends CodeEditor {
         // Toster.show({message: "saved", intent: "success"});
     };
 
+    saveToOstis(checked) {
+        saveScs(this.state.code, this.state.documentName)
+    }
+
     render() {
         return (
             <div style={{zIndex: 5}}>
+                <Switch onChange={this.saveToOstis}>Save</Switch>
+                <Switch onChange={()=>{
+                    if (this.isUploaded) {
+                        // this.deleteRdf()
+                        this.isUploaded = false;
+                    } else {
+                        // this.saveRdf()
+                        this.isUploaded = true;
+                    }
+                }}>Save</Switch>
                 <MonacoEditor
                     language="scs"
                     theme={"scs"}
