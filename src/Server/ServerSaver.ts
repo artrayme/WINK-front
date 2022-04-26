@@ -6,7 +6,6 @@ export function saveScs(code: string, name: string) {
 }
 
 export function saveRdf(code: string, name: string) {
-    console.log(name)
     axios({
         method: 'post',
         url: ServerConfig.scWinkBackUri + '/rdf',
@@ -15,14 +14,12 @@ export function saveRdf(code: string, name: string) {
             rdfFileName: name
         }
     }).then(response => {
-        GlobalState.currentUri = response.data
-        console.log(response.data)
+        GlobalState.updateViewportFunction(response.data)
     });
 }
 
 export function deleteRdf(name: string) {
-    axios.delete(ServerConfig.scWinkBackUri + '/rdf/delete/' + name).then(response => {
-        GlobalState.currentUri = ""
-        console.log("delete " + name)
+    axios.delete(ServerConfig.scWinkBackUri + '/rdf', {params: {name: name}}).then(response => {
+        GlobalState.updateViewportFunction("")
     });
 }
