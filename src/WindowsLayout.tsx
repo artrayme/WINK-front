@@ -18,6 +18,7 @@ import Explorer from "./LayoutComponents/Explorer/Explorer";
 import {EditorTabs, FilesTabs} from "./UIComponents/tabs";
 import "./mosaic.css";
 import ScWebViewport from "./LayoutComponents/Viewport/scWebViewport";
+import { ScSearcher } from "./LayoutComponents/ScSearcher";
 
 export const THEMES = {
     light: "mosaic-blueprint-theme",
@@ -141,14 +142,11 @@ export class WindowsLayout extends React.PureComponent<{ theme: Theme },
             ),
         },
         {
-            name: "Apps",
+            name: "Searcher",
             toolbarControls: React.Children.toArray([]) as JSX.Element[],
             body: (
                 <div>
-                    <Button onClick={() => {
-
-                    }}>Save </Button>
-                    {/*<AppLauncher />*/}
+                    <ScSearcher/>
                 </div>
             ),
         },
