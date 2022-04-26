@@ -9,7 +9,6 @@ Front part of the WINK project.
 </p>
 
 ### Overview
----
 WINK-front is a React component that represents a window with SCs code editor and the ability to upload the code in sc-machine and window with a tree of files. Since Wink-front is a React component you can use it in other web-oriented programs. It provides you with the following list of functionality:
 - Works in WINK-back engine mode and in offline one as a simple editor. 
 - Converts SCg (supports the old and the new formats) to SCs.
