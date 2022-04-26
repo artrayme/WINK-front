@@ -1,220 +1,393 @@
-// var root = xmlDoc; //взятие первого узла из документа (для примера текущий документ)
-// getChildren(root);      //проходим по всему DOM дереву
 let pairDictionary;
-let tempElement;
-let flag;
-let resultStat = null;
+let temporaryNames;
 let xmlDoc;
+let nodeCounter = 0;
+let contoursAndPairs;
+let contourCounter = 0;
 
-export function convertGwfToScs(content) {
-    resultStat = ""
-    pairDictionary = getPairDictionary()
-    let parser = new DOMParser();
-    xmlDoc = parser.parseFromString(content, "text/xml");
-    let childNode = xmlDoc.childNodes[0];
-    getChildren(childNode)
-    return resultStat
+export function convertGwfToScs(content){
+  let parser = new DOMParser();
+  xmlDoc = parser.parseFromString(content, "text/xml");
+  let childNode = xmlDoc.childNodes[0];
+
+  pairDictionary = getPairDictionary();
+  temporaryNames = new Map();
+  contoursAndPairs = new Map();
+  getTempNames(childNode);
+  getContoursChildren(childNode);
+
+  let translatedDoc = {
+    statement: ""
+  };
+  getChildren(childNode, translatedDoc);
+  return translatedDoc.statement
 }
 
-function getChildren(elem) {
-    for (const i in elem.childNodes) {
-        if (elem.childNodes[i].nodeType === 1) {
 
-            if (elem.childNodes[i].hasAttribute("type")) {
-                //если дуга, то проверяем идет она в дугу или в узел
-                if (elem.childNodes[i].tagName === "arc" || elem.childNodes[i].tagName === "pair") {
-                    checkChildren(elem.childNodes[i], "", true);
-                    getRes();
-                }
+function getTempNames(elem) {
 
-            }
+  for (var i in elem.childNodes) {
+    if (elem.childNodes[i].nodeType === 1) {
 
-            getChildren(elem.childNodes[i]);
+      if (elem.childNodes[i].hasAttribute("type")) {
+          if (elem.childNodes[i].tagName == "node" && elem.childNodes[i].getAttribute("idtf") == "") {
+              
+              temporaryNames.set(elem.childNodes[i].getAttribute("id"), "temp_sc_node"+nodeCounter);
+              nodeCounter += 1;
+            
+          } else if (elem.childNodes[i].tagName == "contour" && elem.childNodes[i].getAttribute("idtf") == "") {
+              
+              temporaryNames.set(elem.childNodes[i].getAttribute("id"), "temp_contour"+contourCounter);
+              contourCounter += 1;
+            
+          }
+      }
+        
+      getTempNames(elem.childNodes[i]);
+    }
+  }
+}
+
+function getContoursChildren(elem, translatedDoc) {
+
+  for (var i in elem.childNodes) {
+    if (elem.childNodes[i].nodeType === 1) {
+        //если дуга, то проверяем идет она в дугу или в узел
+        if (elem.childNodes[i].tagName === "contour") {
+
+          var list = {
+              contourChildren: []
+          };
+  
+            //находим все элементы, входящие в контур и записываем в выражение LIST
+          findAllChildren(xmlDoc, elem.childNodes[i].getAttribute("id"), list);
+
+          var contourName = elem.childNodes[i].getAttribute("idtf") == "" ? 
+              temporaryNames.get(elem.childNodes[i].getAttribute("id")) : 
+              elem.childNodes[i].getAttribute("idtf");
+
+          for (var pair in list.contourChildren) {
+              contoursAndPairs.set(list.contourChildren[pair].getAttribute("id"), contourName);
+          }
         }
+
+      getContoursChildren(elem.childNodes[i], translatedDoc);
+    }
+  }
+}
+
+function getChildren(elem, translatedDoc) {
+
+    for (var i in elem.childNodes) {
+      if (elem.childNodes[i].nodeType === 1) {
+          //если дуга, то проверяем идет она в дугу или в узел
+          if (elem.childNodes[i].tagName === "arc" || elem.childNodes[i].tagName === "pair") {
+            var statement = {
+              firstEl: null, //элемент от которого идет дуга
+              pair: null, //дуга
+              secondEl: null, //элемент к которому идет дуга
+              isInContour: false
+            }
+            createStatement (elem.childNodes[i], statement);
+        
+            var st = getTranslated(statement, false);
+            if (statement.isInContour) {
+              translatedDoc.statement += contoursAndPairs.get(elem.childNodes[i].getAttribute("id")) + 
+              " = [*\n\t";
+            }
+            translatedDoc.statement += st;
+            if (statement.isInContour) {
+              translatedDoc.statement += "*];;\n";
+            }
+          }
+
+        getChildren(elem.childNodes[i], translatedDoc);
+      }
     }
 }
 
-function getRes() {
-    console.log(resultStat);
+//флаг, говорит о том вложенное ли выражение, если вложенное ;;\n будут отсутствовать
+function getTranslated (statement, isInside) {
+  var resultStatement = "";
+  var isTranslated = false; //флаг, говорящий о том, что вторая дуга уже была переведена
+
+  if (isInside) {
+    resultStatement += "(";
+  }
+
+  if (typeof (statement.firstEl) == "object") {
+
+    var subStatement = getTranslated (statement.firstEl, true);
+    resultStatement += subStatement + " " + statement.pair + " ";
+
+  } else {
+    resultStatement += statement.firstEl+" "+statement.pair+" ";
+  }
+  
+  if (typeof (statement.secondEl) == "object") {
+
+    var subStatement = getTranslated (statement.secondEl, true);
+    resultStatement += subStatement;
+
+  } else if (!isTranslated){
+    resultStatement += statement.secondEl;
+  }
+  if (!isInside) {
+    resultStatement += ";;\n";
+  } else {
+    resultStatement += ")";
+  }
+  return resultStatement;
 }
 
-function checkChildren(elem, end, flagIsEnd) {
+//для каждой найденной дуги будет определяться свое выражение
+function createStatement (elem, statement) {
+  var begElementInfo = {
+    idToFind: elem.getAttribute("id_b"),  //идентификатор по которому будем искать начальный элемент
+    foundEl: null, //элемент, который найдется
+    type: null, //тип элемента (узел, дуга, шина, контур)
+    isBegin: true //флаг, определяющий: элемент начальный или конечный
+  };
 
-    isGotoNode(xmlDoc, elem.getAttribute("id_b")); //проверяем первый элемент узел или дуга
+  var translatedPair = pairDictionary.get(elem.getAttribute("type"));
+  statement.pair = translatedPair;
+  if (elem.getAttribute("parent") != "0") {
+      statement.isInContour = true;
+  }
 
-    if (flag) { //узел
-        findNodeById(xmlDoc, elem.getAttribute("id_b"));
-        if (resultStat == null) {
-            if (tempElement.tagName === "content") {
-                if (tempElement.getAttribute("file_name") !== "") {
-                    resultStat = "\"file://" + tempElement.getAttribute("file_name") + "\"";
-                } else {
-                    resultStat = "_"
-                }
-            } else {
-                if (tempElement.getAttribute("idtf") !== "") {
-                    resultStat = tempElement.getAttribute("idtf");
-                } else {
-                    resultStat = "_"
-                }
-            }
+  var endElementInfo = {
+    idToFind: elem.getAttribute("id_e"),  //идентификатор по которому будем искать конечный элемент
+    foundEl: null, //элемент, который найдется
+    type: null, //тип элемента (узел, дуга, шина, контур)
+    isBegin: false //флаг, определяющий: элемент начальный или конечный
+  };
 
+  //находим элементы
+  findElement(xmlDoc, begElementInfo);
+  findElement(xmlDoc, endElementInfo);
+
+  //определяем тип элементов, которые уже нашли
+  defineElementType (begElementInfo);
+  defineElementType (endElementInfo);
+
+  //заполняем statement
+  defineStatement(begElementInfo, statement);
+  defineStatement(endElementInfo, statement);
+  
+}
+
+function defineStatement (elementInfo, statement) {
+  switch (elementInfo.type) {
+    case 'node': //если узел, то в statement идет аттрибут "idtf" или _ (в случае пустого идентификатора)
+    
+    var attributeIdtf = elementInfo.foundEl.getAttribute('idtf');
+
+    if (elementInfo.isBegin) {
+        if (attributeIdtf != '') {
+          statement.firstEl = attributeIdtf;
         } else {
-            if (tempElement.tagName === "content") {
-                if (tempElement.getAttribute("file_name") !== "") {
-                    resultStat += "\"file://" + tempElement.getAttribute("file_name") + "\"";
-                } else {
-                    resultStat += "_"
-                }
-            } else {
-                if (tempElement.getAttribute("idtf") !== "") {
-                    resultStat += tempElement.getAttribute("idtf");
-                } else {
-                    resultStat += "_"
-                }
-            }
+          statement.firstEl = temporaryNames.get(elementInfo.foundEl.getAttribute('id'));
         }
-    } else { //дуга
-        findNodeById(xmlDoc, elem.getAttribute("id_b"));
+       
+      } else {
+          if (attributeIdtf != '') {
+              statement.secondEl = attributeIdtf;
+          } else {
+              statement.secondEl = temporaryNames.get(elementInfo.foundEl.getAttribute('id'));
+          }
+      }
+      break;
 
-        if (resultStat == null) {
-            resultStat = '(';
-        } else {
-            resultStat += '(';
-        }
+    case 'file': //если файл, то в statement идет аттрибут "file_name" дочернего узла номер 1
 
-        end += ")";
-        checkChildren(tempElement, end, false);
-    }
+    var attributeFileName = elementInfo.foundEl.childNodes[1].getAttribute("file_name");
 
-    findNodeById(xmlDoc, elem.getAttribute("id_e"));
-
-    isGotoNode(xmlDoc, elem.getAttribute("id_e")); //проверяем второй элемент узел или дуга
-    if (flag) {
-        resultStat += " " + pairDictionary.get(elem.getAttribute("type")) + " ";
-
-        if (tempElement.tagName === "content") {
-            if (tempElement.getAttribute("file_name") !== "") {
-                resultStat += "\"file://" + tempElement.getAttribute("file_name") + "\"" + end;
-            } else {
-                resultStat += "_" + end;
-            }
-        } else {
-            if (tempElement.getAttribute("idtf") !== "") {
-                resultStat += tempElement.getAttribute("idtf") + end;
-            } else {
-                resultStat += "_" + end;
-            }
-        }
-
-        if (flagIsEnd) {
-            resultStat += ";;\n";
-        }
+    if (elementInfo.isBegin) {
+      statement.firstEl = attributeFileName != '' ? "\"file://" + attributeFileName + "\"" : "\"file://\"";
     } else {
-        //в дугу
-        resultStat += " " + pairDictionary.get(elem.getAttribute("type")) + " ";
-        resultStat += '(';
-
-        end += ")";
-        checkChildren(tempElement, end, true);
+      statement.secondEl = attributeFileName != '' ? "\"file://" + attributeFileName + "\"" : "\"file://\"";
     }
 
-}
+      break;
 
-//проверка на то, что дуга идет в узел. Если в узел - то запись обычной тройкой a->b, иначе a->(b->c)
-function isGotoNode(elem, id) {
+    case 'link': // если ссылка, то в statement идет ИНФОРМАЦИЯ второго подузла <node...<content...<![CDATA[ИНФОРМАЦИЯ]]>>>
+      var attributeIdtf = elementInfo.foundEl.getAttribute('idtf');
 
-    for (var i in elem.childNodes) {
+  if (elementInfo.isBegin) {
+      if (attributeIdtf != '') {
+          statement.firstEl = attributeIdtf;
+      } else {
+          statement.firstEl = temporaryNames.get(elementInfo.foundEl.getAttribute('id'));
+      }
+  } else {
+      if (attributeIdtf != '') {
+          statement.secondEl = attributeIdtf;
+      } else {
+          statement.secondEl = temporaryNames.get(elementInfo.foundEl.getAttribute('id'));
+      }
+  }
 
-        if (elem.childNodes[i].nodeType === 1) {
+  break;
 
-            if (elem.childNodes[i].getAttribute("id") === id) {
-                //проверяем чтобы это была дуга
-                flag = elem.childNodes[i].tagName !== "pair";
-            }
+    case 'pair': //если pair, то рекурсивно вызываем
 
-            isGotoNode(elem.childNodes[i], id);
+    var statementInside = {
+      firstEl: null, //элемент от которого идет дуга
+      pair: null, //дуга
+      secondEl: null //элемент к которому идет дуга
+    }
 
+    createStatement (elementInfo.foundEl, statementInside); //заполняем вложенную тройку значениями
+
+    if (elementInfo.isBegin) {
+      statement.firstEl = statementInside;
+    } else {
+      statement.secondEl = statementInside;
+    }
+
+      break;
+
+    case 'bus': //если bus, то ищем узел-хозяина шины по всему документу и записываем, как при обычном узле аттрибут "idtf"
+
+    var busOwner = {
+      idToFind: elementInfo.foundEl.getAttribute("owner"),  //идентификатор хозяина по которому будем искать элемент
+      foundEl: null, //элемент, который найдется
+    };
+
+    findElement(xmlDoc, busOwner);
+
+    var attributeIdtf = busOwner.foundEl.getAttribute('idtf');
+
+    if (elementInfo.isBegin) {
+      if (attributeIdtf != '') {
+          statement.firstEl = attributeIdtf;
+      } else {
+          statement.firstEl = temporaryNames.get(busOwner.foundEl.getAttribute('id'));
+      }
+
+    } else {
+      if (attributeIdtf != '') {
+          statement.secondEl = attributeIdtf;
+      } else {
+          statement.secondEl = temporaryNames.get(busOwner.foundEl.getAttribute('id'));
+      }
+
+    }
+      break;
+
+    case 'contour': //поиск всех узлов, чей parent = id контура (списком)
+
+    var attributeIdtf = elementInfo.foundEl.getAttribute('idtf');
+
+    if (elementInfo.isBegin) {
+        if (attributeIdtf != '') {
+          statement.firstEl = attributeIdtf;
+        } else {
+          statement.firstEl = temporaryNames.get(elementInfo.foundEl.getAttribute('id'));
         }
+       
+      } else {
+          if (attributeIdtf != '') {
+              statement.secondEl = attributeIdtf;
+          } else {
+              statement.secondEl = temporaryNames.get(elementInfo.foundEl.getAttribute('id'));
+          }
+      }
+
+      break;
+  }
+}
+
+function findAllChildren (elem, id, list) {
+  for (var i in elem.childNodes) {
+    if (elem.childNodes[i].nodeType === 1) {
+      if (elem.childNodes[i].getAttribute("parent") == id && 
+          (elem.childNodes[i].tagName == "pair" || elem.childNodes[i].tagName == "arc")) {
+        list.contourChildren.push(elem.childNodes[i]);
+      } 
     }
 
+    findAllChildren(elem.childNodes[i], id, list);
+  }
 }
 
-function findNodeById(elem, id) {
+//функция определения типа элемента, по нему также можно понять, какие элементы обрабатываются на данный момент
+function defineElementType (element) {
+  if (element.foundEl.tagName === "node") {
+    if (element.foundEl.childNodes[1].getAttribute("mime_type") == "image/jpg" || 
+          element.foundEl.childNodes[1].getAttribute("mime_type") == "image/png") {
 
-    for (var i in elem.childNodes) {
+      element.type = "file";
 
-        if (elem.childNodes[i].nodeType === 1) {
+    } else if (element.foundEl.childNodes[1].getAttribute("mime_type") == "content/term") {
+      element.type = "link";
 
-            if (elem.childNodes[i].getAttribute("id") === id) {
-                //нашли по id, теперь будем чекать это узел, шина, контур или картинка
-                if (elem.childNodes[i].tagName === "node") { //здесь либо картинка, либо узел
-                    try {
-                        if (elem.childNodes[i].childNodes[1].tagName === "content" &&
-                            elem.childNodes[i].childNodes[1].getAttribute("file_name") !== "") { //картинка
-                            tempElement = elem.childNodes[i].childNodes[1];
-                        } else {
-                            tempElement = elem.childNodes[i];
-                        }
-                    } catch (e) { //если ошибка вылезла, то это какой-то странный неправильный узел
-                        tempElement = elem.childNodes[i];
-                        return;
-                    }
+    } else {
+      element.type = "node";
 
-                } else if (elem.childNodes[i].tagName === "bus") {
-                    //ищем по атрибуту "owner", который является id узла (node)
-                    findNodeById(xmlDoc, elem.childNodes[i].getAttribute("owner"));
-                } else if (elem.childNodes[i].tagName === "contour") {
-                    //ПОКА ХЗ ЧТО ДЕЛАТЬ С КОНТУРАМИ
-                } else if (elem.childNodes[i].tagName === "pair") {
-                    tempElement = elem.childNodes[i];
-                    return;
-                }
-            }
+    }
+    
+  } else if (element.foundEl.tagName === "pair") {
+    element.type = "pair";
 
-            findNodeById(elem.childNodes[i], id);
+  } else if (element.foundEl.tagName === "bus") {
+    element.type = "bus";
 
-        }
+  } else if (element.foundEl.tagName === "contour") {
+    element.type = "contour";
+
+  }
+}
+
+//функция поиска элемента по идентификатору
+function findElement(elem, elementInfo) {
+  for (var i in elem.childNodes) {
+    if (elem.childNodes[i].nodeType === 1) {
+      if (elem.childNodes[i].getAttribute("id") == elementInfo.idToFind) {
+        elementInfo.foundEl = elem.childNodes[i];
+      } 
     }
 
+    findElement(elem.childNodes[i], elementInfo);
+  }
 }
 
-function getPairDictionary() {
-    const replacementPairs = new Map();
-    replacementPairs.set("pair/const/-/perm/noorien", "<=>")
-        .set("pair/const/-/perm/orient", "=>")
-        .set("pair/const/fuz/perm/orient/membership", "-/>")
-        .set("pair/const/fuz/temp/orient/membership", "~/>")
-        .set("pair/var/pos/perm/orient/membership", "_->")
-        .set("pair/var/neg/temp/orient/membership", "_~|>")
-        .set("pair/var/neg/perm/orient/membership", "_-|>")
-        .set("pair/const/pos/perm/orient/membership", "->")
-        .set("pair/const/pos/temp/orient/membership", "~>")
-        .set("pair/var/fuz/temp/orient/membership", "_~/>")
-        .set("pair/var/fuz/perm/orient/membership", "_-/>")
-        .set("pair/const/neg/perm/orient/membership", "-|>") //а еще 7я это ..>
-        .set("pair/const/neg/temp/orient/membership", "~|>")
-        .set("pair/var/pos/temp/orient/membership", "_~>")
-        .set("pair/-/-/-/noorient", "<>")
-        .set("pair/-/-/-/orient", ">")//тут все дуги, кроме двух _<=> и _=> тк их не существует
 
-        //тут установим дуги, которые по сути не переводятся, но они зачем-то существуют
-        .set("pair/meta/pos/temp/orient/membership", "->")
-        .set("pair/meta/pos/perm/orient/membership", "->")
-        .set("pair/meta/neg/temp/orient/membership", "->")
-        .set("pair/meta/neg/perm/orient/membership", "->")
-        .set("pair/meta/fuz/temp/orient/membership", "->")
-        .set("pair/meta/fuz/perm/orient/membership", "->")
-        .set("pair/meta/-/temp/orient", "->")
-        .set("pair/meta/-/temp/noorien", "->")
-        .set("pair/meta/-/perm/orient", "->")
-        .set("pair/meta/-/perm/noorien", "->")
-        .set("pair/var/-/temp/orient", "->")
-        .set("pair/var/-/temp/noorien", "->")
-        .set("pair/var/-/perm/orient", "->")
-        .set("pair/var/-/perm/noorien", "->")
-        .set("pair/const/-/temp/orient", "->")
-        .set("pair/const/-/temp/noorien", "->");
+  function getPairDictionary() {
+      var replacementPairs = new Map();
+      replacementPairs.set("pair/const/-/perm/noorien", "<=>")
+          .set("pair/const/-/perm/orient", "=>")
+          .set("pair/const/fuz/perm/orient/membership", "-/>")
+          .set("pair/const/fuz/temp/orient/membership", "~/>")
+          .set("pair/var/pos/perm/orient/membership", "_->")
+          .set("pair/var/neg/temp/orient/membership", "_~|>")
+          .set("pair/var/neg/perm/orient/membership", "_-|>")
+          .set("pair/const/pos/perm/orient/membership", "->")
+          .set("pair/const/pos/temp/orient/membership", "~>")
+          .set("pair/var/fuz/temp/orient/membership", "_~/>")
+          .set("pair/var/fuz/perm/orient/membership", "_-/>")
+          .set("pair/const/neg/perm/orient/membership", "-|>") //а еще 7я это ..>
+          .set("pair/const/neg/temp/orient/membership", "~|>")
+          .set("pair/var/pos/temp/orient/membership", "_~>")
+          .set("pair/-/-/-/noorient", "<>")
+          .set("pair/-/-/-/orient", ">")//тут все дуги, кроме двух _<=> и _=> 
 
-    return replacementPairs;
-}
+          //тут установим дуги, которые по сути не переводятся, но они зачем-то существуют
+          .set("pair/meta/pos/temp/orient/membership", "->")
+          .set("pair/meta/pos/perm/orient/membership", "->")
+          .set("pair/meta/neg/temp/orient/membership", "->")
+          .set("pair/meta/neg/perm/orient/membership", "->")
+          .set("pair/meta/fuz/temp/orient/membership", "->")
+          .set("pair/meta/fuz/perm/orient/membership", "->")
+          .set("pair/meta/-/temp/orient", "->")
+          .set("pair/meta/-/temp/noorien", "->")
+          .set("pair/meta/-/perm/orient", "->")
+          .set("pair/meta/-/perm/noorien", "->")
+          .set("pair/var/-/temp/orient", "->")
+          .set("pair/var/-/temp/noorien", "->")
+          .set("pair/var/-/perm/orient", "->")
+          .set("pair/var/-/perm/noorien", "->")
+          .set("pair/const/-/temp/orient", "->")
+          .set("pair/const/-/temp/noorien", "->");
+      return replacementPairs;
+  }
