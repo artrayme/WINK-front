@@ -225,6 +225,9 @@
       "Languages": {
         "rdf": [
           "rdf"
+        ],
+        "owl": [
+          "owl"
         ]
       }
     },
