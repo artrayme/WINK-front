@@ -15,5 +15,5 @@ export class GlobalConfig {
 }
 
 export class GlobalState {
-    static currentUri: string = ""
+    static updateViewportFunction: (name: string) => void
 }
