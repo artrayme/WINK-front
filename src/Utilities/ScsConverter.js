@@ -115,7 +115,7 @@ function getTranslated (statement, isInside) {
     resultStatement += "(";
   }
 
-  if (typeof (statement.firstEl) == "object") {
+  if (statement.firstEl != null && typeof (statement.firstEl) == "object") {
 
     var subStatement = getTranslated (statement.firstEl, true);
     resultStatement += subStatement + " " + statement.pair + " ";
@@ -124,7 +124,7 @@ function getTranslated (statement, isInside) {
     resultStatement += statement.firstEl+" "+statement.pair+" ";
   }
   
-  if (typeof (statement.secondEl) == "object") {
+  if (statement.secondEl != null && typeof (statement.secondEl) == "object") {
 
     var subStatement = getTranslated (statement.secondEl, true);
     resultStatement += subStatement;
