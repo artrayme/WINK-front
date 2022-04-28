@@ -10,8 +10,8 @@ class ScWebViewport extends Component<any> {
     };
 
 
-    constructor() {
-        super("")
+    constructor(props: any) {
+        super(props)
         GlobalState.updateViewportFunction = this.updateViewport.bind(this);
         // @ts-ignore
     }
