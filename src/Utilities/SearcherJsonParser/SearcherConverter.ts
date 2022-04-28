@@ -40,8 +40,9 @@ let counter = 0
 function createScNode(element: string) {
     if (element.startsWith("$")) return new ScAlias(element.substring(1, element.length))
     let temp = element.split(":")
+    if (temp.length === 1) temp.push("_" + counter++)
+    if (temp[0] == '_') return new ScType(0, temp[1])
     if (temp[0] in nodeTypes) {
-        if (temp.length === 1) temp.push("_" + counter)
         return new ScType(nodeTypes[temp[0]], temp[1]);
     } else {
         return new ScIdtf(element)
@@ -51,8 +52,9 @@ function createScNode(element: string) {
 function createScEdge(element: string) {
     if (element.startsWith("$")) return new ScAlias(element.substring(1, element.length))
     let temp = element.split(":")
+    if (temp.length === 1) temp.push("_" + counter++)
+    if (temp[0] == '_') return new ScType(0, temp[1])
     if (temp[0] in edgeTypes) {
-        if (temp.length === 1) temp.push("_" + counter)
         return new ScType(edgeTypes[temp[0]], temp[1]);
     }
 }
