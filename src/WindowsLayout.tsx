@@ -130,7 +130,7 @@ export class WindowsLayout extends React.PureComponent<{ theme: Theme },
                 </Button>,
             ]) as JSX.Element[],
             body:
-                <ScWebViewport document={this.state.openDocument}/>
+                <ScWebViewport/>
         },
         {
             name: "Explorer",
