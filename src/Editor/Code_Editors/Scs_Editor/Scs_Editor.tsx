@@ -57,20 +57,15 @@ export default class Scs_Editor extends CodeEditor {
         // Toster.show({message: "saved", intent: "success"});
     };
 
-    saveToOstis(checked) {
-        saveScs(this.state.code, this.state.documentName)
-    }
-
     render() {
         return (
             <div style={{zIndex: 5}}>
-                <Switch onChange={this.saveToOstis}>Save</Switch>
-                <Switch onChange={()=>{
+                <Switch onChange={() => {
                     if (this.isUploaded) {
-                        // this.deleteRdf()
+                        this.saveScs()
                         this.isUploaded = false;
                     } else {
-                        // this.saveRdf()
+                        this.deleteScs()
                         this.isUploaded = true;
                     }
                 }}>Save</Switch>
@@ -87,5 +82,13 @@ export default class Scs_Editor extends CodeEditor {
                 />
             </div>
         );
+    }
+
+    private saveScs() {
+        // saveScs(this.state.code, this.state.documentName)
+    }
+
+    private deleteScs() {
+
     }
 }
