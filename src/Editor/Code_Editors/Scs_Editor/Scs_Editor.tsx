@@ -6,7 +6,7 @@ import {convertOldGwfToNew} from "../../../Utilities/ScgConverter";
 import {convertGwfToScs} from "../../../Utilities/ScsConverter";
 import {getDocumentLanguage} from "../../../Storage/fileutils";
 import {Switch} from "@blueprintjs/core";
-import {saveScs} from "../../../Server/ServerSaver";
+import {deleteScs, saveScs} from "../../../Server/ServerSaver";
 
 const editorWillMount = monaco => {
     monaco.languages.register({id: 'scs'});
@@ -61,12 +61,12 @@ export default class Scs_Editor extends CodeEditor {
         return (
             <div style={{zIndex: 5}}>
                 <Switch onChange={() => {
-                    if (this.isUploaded) {
+                    if (!this.isUploaded) {
                         this.saveScs()
-                        this.isUploaded = false;
+                        this.isUploaded = true;
                     } else {
                         this.deleteScs()
-                        this.isUploaded = true;
+                        this.isUploaded = false;
                     }
                 }}>Save</Switch>
                 <MonacoEditor
@@ -85,10 +85,10 @@ export default class Scs_Editor extends CodeEditor {
     }
 
     private saveScs() {
-        // saveScs(this.state.code, this.state.documentName)
+        saveScs(this.state.code, this.state.documentName)
     }
 
     private deleteScs() {
-
+        deleteScs(this.state.documentName)
     }
 }
