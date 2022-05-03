@@ -99,7 +99,7 @@ export default class RdfEditor extends CodeEditor {
                     }
                 }}>Save</Switch>
                 <Editor
-                    theme="vs-light"
+                    theme="vs-dark"
                     options={{
                         automaticLayout: true
                     }}
