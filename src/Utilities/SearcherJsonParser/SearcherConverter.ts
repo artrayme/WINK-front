@@ -22,18 +22,19 @@ let nodeTypes = {
     "sc_node_norole_relation": 1025
 }
 
-class JsonSearchingTriplet {
+// TODO: unused
+// class JsonSearchingTriplet {
 
-    first: any;
-    second: any;
-    third: any;
+//     first: any;
+//     second: any;
+//     third: any;
 
-    constructor(first: any, second: any, third: any) {
-        this.first = first;
-        this.second = second;
-        this.third = third;
-    }
-}
+//     constructor(first: any, second: any, third: any) {
+//         this.first = first;
+//         this.second = second;
+//         this.third = third;
+//     }
+// }
 
 let counter = 0
 
@@ -41,7 +42,7 @@ function createScNode(element: string) {
     if (element.startsWith("$")) return new ScAlias(element.substring(1, element.length))
     let temp = element.split(":")
     if (temp.length === 1) temp.push("_" + counter++)
-    if (temp[0] == '_') return new ScType(0, temp[1])
+    if (temp[0] === '_') return new ScType(0, temp[1])
     if (temp[0] in nodeTypes) {
         return new ScType(nodeTypes[temp[0]], temp[1]);
     } else {
@@ -53,7 +54,7 @@ function createScEdge(element: string) {
     if (element.startsWith("$")) return new ScAlias(element.substring(1, element.length))
     let temp = element.split(":")
     if (temp.length === 1) temp.push("_" + counter++)
-    if (temp[0] == '_') return new ScType(0, temp[1])
+    if (temp[0] === '_') return new ScType(0, temp[1])
     if (temp[0] in edgeTypes) {
         return new ScType(edgeTypes[temp[0]], temp[1]);
     }
