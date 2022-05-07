@@ -30,12 +30,12 @@ function getTempNames(elem) {
     if (elem.childNodes[i].nodeType === 1) {
 
       if (elem.childNodes[i].hasAttribute("type")) {
-          if (elem.childNodes[i].tagName == "node" && elem.childNodes[i].getAttribute("idtf") == "") {
+          if (elem.childNodes[i].tagName === "node" && elem.childNodes[i].getAttribute("idtf") === "") {
               
               temporaryNames.set(elem.childNodes[i].getAttribute("id"), "temp_sc_node"+nodeCounter);
               nodeCounter += 1;
             
-          } else if (elem.childNodes[i].tagName == "contour" && elem.childNodes[i].getAttribute("idtf") == "") {
+          } else if (elem.childNodes[i].tagName === "contour" && elem.childNodes[i].getAttribute("idtf") === "") {
               
               temporaryNames.set(elem.childNodes[i].getAttribute("id"), "temp_contour"+contourCounter);
               contourCounter += 1;
@@ -62,7 +62,7 @@ function getContoursChildren(elem, translatedDoc) {
             //находим все элементы, входящие в контур и записываем в выражение LIST
           findAllChildren(xmlDoc, elem.childNodes[i].getAttribute("id"), list);
 
-          var contourName = elem.childNodes[i].getAttribute("idtf") == "" ? 
+          var contourName = elem.childNodes[i].getAttribute("idtf") === "" ? 
               temporaryNames.get(elem.childNodes[i].getAttribute("id")) : 
               elem.childNodes[i].getAttribute("idtf");
 
@@ -115,7 +115,7 @@ function getTranslated (statement, isInside) {
     resultStatement += "(";
   }
 
-  if (statement.firstEl != null && typeof (statement.firstEl) == "object") {
+  if (statement.firstEl !== null && typeof (statement.firstEl) === "object") {
 
     var subStatement = getTranslated (statement.firstEl, true);
     resultStatement += subStatement + " " + statement.pair + " ";
@@ -124,9 +124,9 @@ function getTranslated (statement, isInside) {
     resultStatement += statement.firstEl+" "+statement.pair+" ";
   }
   
-  if (statement.secondEl != null && typeof (statement.secondEl) == "object") {
+  if (statement.secondEl !== null && typeof (statement.secondEl) === "object") {
 
-    var subStatement = getTranslated (statement.secondEl, true);
+    subStatement = getTranslated (statement.secondEl, true);
     resultStatement += subStatement;
 
   } else if (!isTranslated){
@@ -151,7 +151,7 @@ function createStatement (elem, statement) {
 
   var translatedPair = pairDictionary.get(elem.getAttribute("type"));
   statement.pair = translatedPair;
-  if (elem.getAttribute("parent") != "0") {
+  if (elem.getAttribute("parent") !== "0") {
       statement.isInContour = true;
   }
 
@@ -183,14 +183,14 @@ function defineStatement (elementInfo, statement) {
     var attributeIdtf = elementInfo.foundEl.getAttribute('idtf');
 
     if (elementInfo.isBegin) {
-        if (attributeIdtf != '') {
+        if (attributeIdtf !== '') {
           statement.firstEl = attributeIdtf;
         } else {
           statement.firstEl = temporaryNames.get(elementInfo.foundEl.getAttribute('id'));
         }
        
       } else {
-          if (attributeIdtf != '') {
+          if (attributeIdtf !== '') {
               statement.secondEl = attributeIdtf;
           } else {
               statement.secondEl = temporaryNames.get(elementInfo.foundEl.getAttribute('id'));
@@ -203,24 +203,24 @@ function defineStatement (elementInfo, statement) {
     var attributeFileName = elementInfo.foundEl.childNodes[1].getAttribute("file_name");
 
     if (elementInfo.isBegin) {
-      statement.firstEl = attributeFileName != '' ? "\"file://" + attributeFileName + "\"" : "\"file://\"";
+      statement.firstEl = attributeFileName !== '' ? "\"file://" + attributeFileName + "\"" : "\"file://\"";
     } else {
-      statement.secondEl = attributeFileName != '' ? "\"file://" + attributeFileName + "\"" : "\"file://\"";
+      statement.secondEl = attributeFileName !== '' ? "\"file://" + attributeFileName + "\"" : "\"file://\"";
     }
 
       break;
 
     case 'link': // если ссылка, то в statement идет ИНФОРМАЦИЯ второго подузла <node...<content...<![CDATA[ИНФОРМАЦИЯ]]>>>
-      var attributeIdtf = elementInfo.foundEl.getAttribute('idtf');
+      attributeIdtf = elementInfo.foundEl.getAttribute('idtf');
 
   if (elementInfo.isBegin) {
-      if (attributeIdtf != '') {
+      if (attributeIdtf !== '') {
           statement.firstEl = attributeIdtf;
       } else {
           statement.firstEl = temporaryNames.get(elementInfo.foundEl.getAttribute('id'));
       }
   } else {
-      if (attributeIdtf != '') {
+      if (attributeIdtf !== '') {
           statement.secondEl = attributeIdtf;
       } else {
           statement.secondEl = temporaryNames.get(elementInfo.foundEl.getAttribute('id'));
@@ -256,17 +256,17 @@ function defineStatement (elementInfo, statement) {
 
     findElement(xmlDoc, busOwner);
 
-    var attributeIdtf = busOwner.foundEl.getAttribute('idtf');
+    attributeIdtf = busOwner.foundEl.getAttribute('idtf');
 
     if (elementInfo.isBegin) {
-      if (attributeIdtf != '') {
+      if (attributeIdtf !== '') {
           statement.firstEl = attributeIdtf;
       } else {
           statement.firstEl = temporaryNames.get(busOwner.foundEl.getAttribute('id'));
       }
 
     } else {
-      if (attributeIdtf != '') {
+      if (attributeIdtf !== '') {
           statement.secondEl = attributeIdtf;
       } else {
           statement.secondEl = temporaryNames.get(busOwner.foundEl.getAttribute('id'));
@@ -277,17 +277,17 @@ function defineStatement (elementInfo, statement) {
 
     case 'contour': //поиск всех узлов, чей parent = id контура (списком)
 
-    var attributeIdtf = elementInfo.foundEl.getAttribute('idtf');
+    attributeIdtf = elementInfo.foundEl.getAttribute('idtf');
 
     if (elementInfo.isBegin) {
-        if (attributeIdtf != '') {
+        if (attributeIdtf !== '') {
           statement.firstEl = attributeIdtf;
         } else {
           statement.firstEl = temporaryNames.get(elementInfo.foundEl.getAttribute('id'));
         }
        
       } else {
-          if (attributeIdtf != '') {
+          if (attributeIdtf !== '') {
               statement.secondEl = attributeIdtf;
           } else {
               statement.secondEl = temporaryNames.get(elementInfo.foundEl.getAttribute('id'));
@@ -295,14 +295,17 @@ function defineStatement (elementInfo, statement) {
       }
 
       break;
+
+      default:
+        // do nothing
   }
 }
 
 function findAllChildren (elem, id, list) {
   for (var i in elem.childNodes) {
     if (elem.childNodes[i].nodeType === 1) {
-      if (elem.childNodes[i].getAttribute("parent") == id && 
-          (elem.childNodes[i].tagName == "pair" || elem.childNodes[i].tagName == "arc")) {
+      if (elem.childNodes[i].getAttribute("parent") === id && 
+          (elem.childNodes[i].tagName === "pair" || elem.childNodes[i].tagName === "arc")) {
         list.contourChildren.push(elem.childNodes[i]);
       } 
     }
@@ -314,12 +317,12 @@ function findAllChildren (elem, id, list) {
 //функция определения типа элемента, по нему также можно понять, какие элементы обрабатываются на данный момент
 function defineElementType (element) {
   if (element.foundEl.tagName === "node") {
-    if (element.foundEl.childNodes[1].getAttribute("mime_type") == "image/jpg" || 
-          element.foundEl.childNodes[1].getAttribute("mime_type") == "image/png") {
+    if (element.foundEl.childNodes[1].getAttribute("mime_type") === "image/jpg" || 
+          element.foundEl.childNodes[1].getAttribute("mime_type") === "image/png") {
 
       element.type = "file";
 
-    } else if (element.foundEl.childNodes[1].getAttribute("mime_type") == "content/term") {
+    } else if (element.foundEl.childNodes[1].getAttribute("mime_type") === "content/term") {
       element.type = "link";
 
     } else {
@@ -343,7 +346,7 @@ function defineElementType (element) {
 function findElement(elem, elementInfo) {
   for (var i in elem.childNodes) {
     if (elem.childNodes[i].nodeType === 1) {
-      if (elem.childNodes[i].getAttribute("id") == elementInfo.idToFind) {
+      if (elem.childNodes[i].getAttribute("id") === elementInfo.idToFind) {
         elementInfo.foundEl = elem.childNodes[i];
       } 
     }
