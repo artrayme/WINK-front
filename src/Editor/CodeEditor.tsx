@@ -1,4 +1,4 @@
-import {Component} from "react";
+import React, {Component} from "react";
 import StorageManager from "../Storage/storageManager";
 import hotkeys from "hotkeys-js";
 import {Position, Toaster} from "@blueprintjs/core";
@@ -20,7 +20,7 @@ interface editorOptions {
     saveHotkey?: boolean;
 }
 
-class CodeEditor extends Component<CodeEditorProps, CodeEditorState> {
+class CodeEditor extends React.Component<CodeEditorProps, CodeEditorState> {
     editorOptions?: editorOptions;
     storage: StorageManager;
 

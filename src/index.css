@@ -52,3 +52,22 @@ body,
     width: 100%;
     border-color: #695c92;
 }
+.popup {
+    z-index: 9;
+    background-color: #21252B;
+    text-align: left;
+    min-height: 100%;
+    min-width: 3%;
+    max-height: 100%;
+    max-width: 80%;
+    overflow-x: auto;
+}
+.popup .resizer-right {
+    width: 10px;
+    height: 100%;
+    background: transparent;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    cursor: w-resize;
+}

@@ -28,7 +28,6 @@ const kConnectors = ['>', '<', '->', '<-', '<>', '..>', '<..', '<=>', '_<=>', '=
 // }
 
 export function getCompletionProvider(monaco) {
-
     return {
         provideCompletionItems: function (model, position) {
             const result = [];
