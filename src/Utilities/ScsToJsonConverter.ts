@@ -1,3 +1,5 @@
+/* eslint-disable no-useless-escape */
+
 let edgeTypes = {
     "sc_edge_dcommon": 4,
     "sc_edge_ucommon": 8,
@@ -35,7 +37,7 @@ export function convertToJson(scsText: string): [{}] {
             let components = triplet[j].trim().split('\#')
             let type = components[0];
             let name = components[1];
-            if (nodeTypes[type] !== undefined && elementsMap[name] == undefined) {
+            if (nodeTypes[type] !== undefined && elementsMap[name] === undefined) {
                 result.push(createNode(type, name, elementsMap))
             }
         }
